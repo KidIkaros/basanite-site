@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # basanite installer — three modes, auto-selected:
 #   1. binary download from the public basanite-site releases (fast path)
-#   2. build from source (fallback: requires cargo + access to the source repos)
+#   2. build from source (fallback: requires cargo AND clonable source —
+#      the product repo is private, so this fails with guidance when the
+#      source is not available to you)
 #   3. --prefix / --build-from-source for explicit control
 # The product proving self-sovereignty installs without a server round-trip
 # beyond the download itself. SHA256 verified when checksums are present.
@@ -31,13 +33,20 @@ finish() {
 
 build_from_source() {
   command -v cargo >/dev/null 2>&1 || {
-    say "error: no prebuilt binary for ${OS}-${ARCH} and cargo is not installed."
+    say "error: no prebuilt binary for ${OS:-?}-${ARCH:-?} and cargo is not installed."
     say "install rust from https://rustup.rs then re-run this script"
     exit 1
   }
   say "==> building basanite from source (release)…"
   TMP="$(mktemp -d)"
-  git clone --depth 1 "https://github.com/$SOURCE_REPO" "$TMP/src"
+  if ! git clone --depth 1 "https://github.com/$SOURCE_REPO" "$TMP/src" 2>/dev/null; then
+    rm -rf "$TMP"
+    say "!! cannot build from source: https://github.com/$SOURCE_REPO is not publicly cloneable."
+    say "   The basanite source repo is private; prebuilt binaries for supported"
+    say "   platforms live at https://github.com/$RELEASES_REPO/releases"
+    say "   If your platform has no prebuilt binary, request one from the maintainer."
+    exit 1
+  fi
   (cd "$TMP/src" && cargo build --release)
   cp "$TMP/src/target/release/$BIN" "$INSTALL_DIR/$BIN"
   rm -rf "$TMP"
@@ -45,6 +54,14 @@ build_from_source() {
 
 # ─── explicit modes ────────────────────────────────────────────
 case "${1:-}" in
+  -h|--help|help)
+    say "basanite installer"
+    say "usage: curl -fsSL <installer-url> | bash"
+    say "       install.sh --prefix /usr/local"
+    say "       install.sh --build-from-source"
+    say "env:   VERSION=vX.Y.Z  (default: latest release)"
+    say "       PREFIX=dir      (default: $HOME/.local; binary lands in \$PREFIX/bin)"
+    exit 0 ;;
   --prefix)
     [ -n "${2:-}" ] || { say "usage: install.sh --prefix /usr/local"; exit 2; }
     PREFIX="$2"; INSTALL_DIR="$PREFIX/bin"; mkdir -p "$INSTALL_DIR" ;;
