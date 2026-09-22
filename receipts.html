@@ -1,0 +1,235 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>basanite — the receipts</title>
+<style>
+  :root {
+    --stone-900:#1C1917; --stone-600:#44403C; --gold-500:#D4AF37;
+    --paper-50:#FAFAF9; --ink-900:#0C0A09; --invalid:#DC2626;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--stone-900); color:var(--paper-50);
+         font-family:ui-sans-serif,system-ui,'Inter','Helvetica Neue',sans-serif; }
+  .frame { max-width:1180px; margin:0 auto; padding:0; }
+  nav { display:flex; align-items:center; gap:14px; padding:26px 8px; flex-wrap:wrap; }
+  nav img { width:34px; height:34px; }
+  .wordmark { font-size:20px; letter-spacing:0.02em; color:var(--paper-50); font-weight:600; }
+  nav .spacer { flex:1; }
+  nav a { color:var(--stone-600); text-decoration:none; font-size:15px; margin-left:22px; }
+  nav a.get { color:var(--gold-500); }
+  .hero { padding:80px 8px 8px; max-width:860px; }
+  .kicker { font-family:ui-monospace,'JetBrains Mono',monospace; font-size:13px;
+            letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-600); margin-bottom:26px; }
+  h1 { font-size:52px; line-height:1.06; font-weight:700; letter-spacing:-0.02em; }
+  h1 .streak { color:var(--gold-500); }
+  .sub { margin-top:24px; font-size:19px; line-height:1.55; color:var(--stone-600); max-width:680px; }
+  .sub strong { color:var(--paper-50); font-weight:600; }
+  .notice { margin:34px 8px 0; padding:22px 28px; border-left:3px solid var(--gold-500);
+            background:#141210; max-width:900px; }
+  .notice p { font-size:15px; line-height:1.65; color:var(--stone-600); }
+  .notice p strong { color:var(--paper-50); }
+  .section { padding:64px 8px 0; max-width:980px; }
+  .section h2 { font-size:28px; letter-spacing:-0.01em; margin-bottom:6px; }
+  .section .date { font-family:ui-monospace,monospace; font-size:13px; color:var(--stone-600); margin-bottom:16px; }
+  .incident { border-top:1px solid #2c2925; padding:34px 0 10px; max-width:880px; }
+  .incident h3 { font-size:20px; margin-bottom:10px; }
+  .incident p { font-size:15px; line-height:1.7; color:var(--stone-600); margin-bottom:10px; }
+  .incident p strong, .incident li strong { color:var(--paper-50); font-weight:600; }
+  .incident ul { margin:8px 0 12px 20px; }
+  .incident li { font-size:15px; line-height:1.7; color:var(--stone-600); margin-bottom:8px; }
+  .incident a { color:var(--gold-500); text-decoration:none; overflow-wrap:anywhere; }
+  .src { font-size:13px; color:var(--stone-600); }
+  .src strong { color:var(--paper-50); }
+  .strip { margin:64px 8px 0; padding:34px 36px; border-left:3px solid var(--gold-500);
+           background:#141210; max-width:900px; }
+  .strip p { font-size:19px; line-height:1.6; }
+  .strip p strong { color:var(--paper-50); }
+  .qa { border-top:1px solid #2c2925; padding:26px 0 8px; max-width:880px; }
+  .qa h3 { font-size:18px; margin-bottom:8px; color:var(--paper-50); }
+  .qa p { font-size:15px; line-height:1.65; color:var(--stone-600); }
+  .qa code { font-family:ui-monospace,monospace; font-size:0.9em; color:var(--gold-500);
+             background:#141210; padding:1px 6px; border-radius:4px; }
+  footer { margin-top:100px; padding:30px 8px 44px; border-top:1px solid #2c2925;
+           display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  footer span { color:var(--stone-600); font-size:14px; }
+  footer .fm { font-family:ui-monospace,monospace; color:var(--paper-50); }
+  @media (max-width:760px){ h1{font-size:36px;} .section h2{font-size:24px;} }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <nav>
+    <img src="mark.svg" alt="basanite">
+    <span class="wordmark">basanite</span>
+    <span class="spacer"></span>
+    <a href="index.html">home</a>
+    <a href="docs.html">docs</a>
+    <a href="flagged.html">support</a>
+    <a href="tos.html">terms</a>
+    <a class="get" href="index.html#download">download</a>
+  </nav>
+
+  <section class="hero">
+    <div class="kicker">Receipts · what the record shows</div>
+    <h1>Provenance standards should<br>survive <span class="streak">reading.</span></h1>
+    <p class="sub">Independent analysis and field incidents involving the C2PA specification —
+    the standard our product deliberately does not depend on. <strong>Facts and links only.</strong>
+    Every claim below carries its source; this page is updated when incidents recur.</p>
+  </section>
+
+  <div class="notice">
+    <p><strong>Disclosure:</strong> we build a provenance product, so read this page the way
+    you would read any interested party's citation of inconvenient facts — by clicking the
+    links. Facts we verified directly against primary sources are marked
+    <strong>[H]</strong>; facts resting on reputable secondary reporting are marked
+    <strong>[M]</strong>. Compiled <strong>2026-09-22</strong>.</p>
+  </div>
+
+  <section class="section">
+    <h2>1 · The independent audit: the spec fails its own goals</h2>
+    <div class="date">Golaszewski, Krawetz, Sherman et al. — arXiv:2604.24890, April 2026 · [H]</div>
+    <div class="incident">
+      <p>The first independent security analysis of C2PA concluded the specification
+      <strong>"fails to achieve their claimed security goals."</strong> Load-bearing findings:</p>
+      <ul>
+        <li><strong>Revocation checking is optional</strong> for validators — and the spec
+        permits OCSP only, expressly forbidding CRLs.</li>
+        <li><strong>Timestamps are not bound</strong> into the signed claim the way the
+        authors recommend; the paper's own fix proposal is exactly the binding our format
+        does (checkpoints sign their own timestamps).</li>
+        <li><strong>Exclusion ranges</strong> allow parts of a manifest to be marked
+        unverifiable-and-ignored — a tamper surface.</li>
+        <li><strong>Certificate expiry destroys verifiability</strong> of historical content
+        (see incident 3).</li>
+      </ul>
+      <p class="src">Source: <a href="https://arxiv.org/abs/2604.24890">arxiv.org/abs/2604.24890</a> —
+      fetched and read in full by this effort [H]; detailed companion study at IACR ePrint
+      2026/804.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>2 · Revocation ignored in the field</h2>
+    <div class="date">Nikon Z6 III · revoked Nov 2025 · accepted ~6 months later · [H audit / M reporting]</div>
+    <div class="incident">
+      <p>A camera certificate that was <strong>revoked in November 2025</strong> was still
+      accepted by a major validator roughly six months later. Validators consulted gave
+      <strong>contradictory results</strong> — one flagged the manifest invalid, the other
+      showed it as good — and <strong>neither reported the revocation</strong> to the user
+      (documented as Fig. 2 in the audit above).</p>
+      <p>Context: a separate signature-spoofing vulnerability in the same camera line days
+      after its August 2025 launch led to certificates being revoked at all — the revocation
+      machinery mattered, and the validators didn't run it. <strong>[M]</strong></p>
+      <p class="src">Sources: <a href="https://arxiv.org/abs/2604.24890">arXiv:2604.24890</a> [H] ·
+      <a href="https://en.wikipedia.org/wiki/Content_Credentials">Wikipedia, "Content
+      Credentials"</a> [M].</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>3 · Expiry destroyed verifiability of government records</h2>
+    <div class="date">Arizona Secretary of State pilot · validated Jan 2025, failed Jan 2026 · [M]</div>
+    <div class="incident">
+      <p>Content from an Arizona Secretary of State pilot <strong>validated in January 2025
+      and failed validation one year later — with the file unchanged.</strong> The cause was
+      certificate expiry, not tampering: the verification model tied truth to a validity
+      window rather than to the signed bytes. This is directly incompatible with
+      records-retention obligations (the reporting cites 52 U.S.C. §20701 among others).</p>
+      <p>basanite's failure mode is the opposite shape: verification is offline and
+      windowless — a manifest from years ago verifies today, and its footer discloses
+      exactly what was and wasn't checked.</p>
+      <p class="src">Source: <a href="https://en.wikipedia.org/wiki/Content_Credentials">Wikipedia,
+      "Content Credentials"</a> [M], citing the audit's expiry analysis.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>4 · Stripping is the normal case, by the standard's own FAQ</h2>
+    <div class="date">C2PA FAQ / Editors Weblog adoption tracker · [M quotes / H design limitation]</div>
+    <div class="incident">
+      <p>Embedded manifests separate from content under ordinary use. The standard's own
+      documentation and adoption tracking state, in summary:</p>
+      <ul>
+        <li><strong>"Email clients do not preserve C2PA. Messaging apps strip metadata. Most
+        CMS platforms lack integration. The screenshot problem remains unsolved."</strong></li>
+        <li>The BBC Verify pilot reported a video with fabricated audio that was
+        <strong>silently republished three times with its manifest stripped</strong> — no
+        alarm, no signal, because stripped means invisible, not invalid. <strong>[M]</strong></li>
+        <li>The spec's fallback is <strong>soft bindings</strong> — content fingerprints and
+        watermarking that require an online manifest-repository lookup to be useful, i.e.
+        the exact platform dependency the standard's offline story disclaims.</li>
+      </ul>
+      <p class="src">Sources: <a href="https://c2pa.org/faqs/">c2pa.org/faqs</a> ·
+      <a href="https://editorsweblog.org/2026/04/12/c2pa-adoption-tracker-platforms-content-credentials-2026">Editors
+      Weblog adoption tracker</a> [M] · spec §9 (bindings) [H].</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>5 · Further incidents on the record</h2>
+    <div class="incident">
+      <ul>
+        <li><strong>Android signing forgery (Aug 2026):</strong> a demonstrated C2PA signing
+        forgery from Android root access; Google declined to fix ("Won't fix — infeasible").
+        [M] — <a href="https://en.wikipedia.org/wiki/Content_Credentials">Wikipedia</a></li>
+        <li><strong>Trust-list churn:</strong> the interim trust list was frozen
+        <strong>January 1, 2026</strong> — no new entries; legacy certificates only valid
+        until expiry. [H] — <a href="https://c2pa.org/conformance/">c2pa.org/conformance</a></li>
+        <li><strong>The camera rift:</strong> major camera makers ship spec 1.4 implementations
+        outside the Conformance Program; <strong>no dedicated camera implementation had
+        achieved conformance as of mid-2026</strong>, leaving headline hardware outside the
+        official trust path. [M] — <a href="https://en.wikipedia.org/wiki/Content_Credentials">Wikipedia</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>What we do about it</h2>
+    <div class="qa">
+      <h3>Revocation: checked when a journal is present, disclosed when not</h3>
+      <p>Every basanite verdict prints its revocation status — enforced against a healthy
+      journal, or an explicit statement that it was not checked. "Absence of a journal is not
+      evidence of absence of revocation" is printed verbatim in the footer rather than
+      silently skipped. <code>basanite verify file</code> and read the footer.</p>
+    </div>
+    <div class="qa">
+      <h3>Timestamps: inside the signature</h3>
+      <p>Each checkpoint signs its own timestamp with strictly-increasing enforcement — the
+      binding the independent audit recommends. Disclosed limitation: timestamps are
+      signer-asserted, not TSA-attested; the footer says so on every verdict.</p>
+    </div>
+    <div class="qa">
+      <h3>Verification: offline and windowless</h3>
+      <p>No OCSP, no TSA, no manifest repository. A sealed file verifies today or in ten
+      years from the same bytes. The honest counterpart, printed on every unanchored
+      verdict: without the publisher's signed head anchor, a shortened history cannot be
+      detected from the manifest alone.</p>
+    </div>
+    <div class="qa">
+      <h3>Stripping: the history travels as a file, not a hope</h3>
+      <p>The manifest is a plain sidecar file you distribute beside the asset — and the
+      <a href="flagged.html" style="color:var(--gold-500)">flagged-asset runbook</a> covers
+      recovery when a publisher omitted it. A missing manifest is reported as
+      <code>no-manifest</code>, never as a pass.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Update policy</h2>
+    <p style="color:var(--stone-600); max-width:760px; line-height:1.7;">
+    This page lists facts and links. It is updated when incidents recur or sources are
+    revised — newest incidents join the list, corrections are made the same day a source
+    corrects. If you believe a fact here is wrong or stale, write
+    <strong style="color:var(--paper-50)">support@ikaros.digital</strong> with the source and
+    we will correct or re-mark it.</p>
+  </section>
+
+  <footer>
+    <span class="fm">basanite</span>
+    <span>— prove what happened. · Ikaros Digital · Verdicts are cryptographic statements about manifests, not guarantees of ground truth.</span>
+  </footer>
+</div>
+</body>
+</html>
