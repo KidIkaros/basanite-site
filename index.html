@@ -1,0 +1,231 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>basanite — the touchstone for digital media</title>
+<style>
+  :root {
+    --stone-900:#1C1917; --stone-600:#44403C; --gold-500:#D4AF37;
+    --paper-50:#FAFAF9; --ink-900:#0C0A09; --invalid:#DC2626;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--stone-900); color:var(--paper-50);
+         font-family:ui-sans-serif,system-ui,'Inter','Helvetica Neue',sans-serif; }
+  .frame { max-width:1180px; margin:0 auto; padding:0; }
+  /* ── nav ── */
+  nav { display:flex; align-items:center; gap:14px; padding:26px 8px; }
+  nav img { width:34px; height:34px; }
+  .wordmark { font-size:20px; letter-spacing:0.02em; color:var(--paper-50); font-weight:600; }
+  nav .spacer { flex:1; }
+  nav a { color:var(--stone-600); text-decoration:none; font-size:15px; margin-left:28px; }
+  nav a.get { color:var(--gold-500); }
+  /* ── hero ── */
+  .hero { padding:96px 8px 72px; max-width:860px; }
+  .kicker { font-family:ui-monospace,'JetBrains Mono',monospace; font-size:13px;
+            letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-600); margin-bottom:26px; }
+  h1 { font-size:64px; line-height:1.04; font-weight:700; letter-spacing:-0.02em; }
+  h1 .streak { color:var(--gold-500); }
+  .sub { margin-top:28px; font-size:20px; line-height:1.55; color:var(--stone-600); max-width:620px; }
+  .sub strong { color:var(--paper-50); font-weight:600; }
+  /* ── verdict panel: the product IS the hero ── */
+  .verdict { margin:64px 0 0 8px; background:#141210; border:1px solid #2c2925;
+             border-radius:12px; max-width:760px; overflow:hidden; }
+  .verdict .bar { display:flex; gap:7px; padding:12px 16px; border-bottom:1px solid #2c2925; }
+  .verdict .bar i { width:11px; height:11px; border-radius:50%; background:#2c2925; }
+  .verdict pre { padding:22px 24px 26px; font-family:ui-monospace,'JetBrains Mono',monospace;
+                 font-size:15.5px; line-height:1.75; color:var(--paper-50); }
+  .ok { color:var(--gold-500); font-weight:600; }
+  .dim { color:var(--stone-600); }
+  /* ── three verdicts row ── */
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#2c2925;
+           margin:88px 8px 0; border:1px solid #2c2925; border-radius:12px; overflow:hidden; }
+  .card { background:var(--stone-900); padding:34px 30px 38px; }
+  .card h3 { font-family:ui-monospace,monospace; font-size:16px; font-weight:600; margin-bottom:12px; }
+  .card p { font-size:15px; line-height:1.6; color:var(--stone-600); }
+  .card.intact h3 { color:var(--gold-500); }
+  /* ── honesty strip ── */
+  .strip { margin:88px 8px 0; padding:34px 36px; border-left:3px solid var(--gold-500);
+           background:#141210; max-width:900px; }
+  .strip p { font-size:19px; line-height:1.6; }
+  .strip .dim2 { color:var(--stone-600); display:block; margin-top:10px; font-size:15.5px; }
+  /* ── footer ── */
+  footer { margin-top:110px; padding:30px 8px 44px; border-top:1px solid #2c2925;
+           display:flex; align-items:center; gap:12px; }
+  footer span { color:var(--stone-600); font-size:14px; }
+  footer .fm { font-family:ui-monospace,monospace; color:var(--paper-50); }
+
+  .section { padding:88px 8px 0; max-width:980px; }
+  .section h2 { font-size:38px; letter-spacing:-0.015em; margin-bottom:14px; }
+  .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#2c2925;
+           border:1px solid #2c2925; border-radius:12px; overflow:hidden; margin-top:40px; }
+  .step { background:var(--stone-900); padding:30px 28px 34px; }
+  .step .n { font-family:ui-monospace,monospace; color:var(--gold-500); font-size:14px; margin-bottom:14px; }
+  .step h3 { font-size:19px; margin-bottom:10px; }
+  .step p, .qa p { font-size:15px; line-height:1.65; color:var(--stone-600); }
+  .demo-block .verdict { margin:36px 0 0; max-width:860px; }
+  .demo-block .tampered { border-color:#3a2323; }
+  .demo-block pre b { color:var(--gold-500); font-weight:600; }
+  .bad { color:var(--invalid); font-weight:600; }
+  .qa { border-top:1px solid #2c2925; padding:26px 0 8px; }
+  .qa h3 { font-size:18px; margin-bottom:8px; color:var(--paper-50); }
+  .qa code, .step code { font-family:ui-monospace,monospace; font-size:0.9em;
+                         color:var(--gold-500); background:#141210; padding:1px 6px; border-radius:4px; }
+  .dl-note { color:var(--stone-600); max-width:640px; line-height:1.6; margin-top:6px; }
+  .dl-row { margin-top:34px; display:flex; gap:26px; align-items:center; flex-wrap:wrap; }
+  .dl-soon { font-family:ui-monospace,monospace; font-size:14px; color:var(--stone-600);
+             border:1px dashed #2c2925; padding:12px 18px; border-radius:8px; }
+  .dl-gh { color:var(--gold-500); text-decoration:none; font-size:15px; }
+  @media (max-width:760px){ .steps{grid-template-columns:1fr;} .three{grid-template-columns:1fr;}
+    h1{font-size:42px;} .section h2{font-size:30px;} }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <nav>
+    <img src="mark.svg" alt="basanite">
+    <span class="wordmark">basanite</span>
+    <span class="spacer"></span>
+    <a href="#verify">verify</a>
+    <a href="#newsroom">newsrooms</a>
+    <a class="get" href="#download">download</a>
+  </nav>
+
+  <section class="hero">
+    <div class="kicker">The touchstone for digital media</div>
+    <h1>Prove what happened<br>to your files. <span class="streak">Offline, forever.</span></h1>
+    <p class="sub">basanite seals your work the moment you capture it and verifies
+    any edit that follows — <strong>without asking a platform, a vendor, or a
+    government for permission.</strong> No confidence scores. A verdict.</p>
+
+    <div class="verdict">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <pre>$ basanite verify q3-report.pdf
+
+<span class="ok">manifest-intact</span> as of 1790095935
+  chunks: 1/1 matched
+  edits:  capture → edit (2026-09-22 14:02 UTC)
+  attestations: 1 independent
+<span class="dim">  verdict is a cryptographic statement about the manifest,
+  not a guarantee of ground truth.</span></pre>
+    </div>
+  </section>
+
+  <section class="three">
+    <div class="card intact">
+      <h3>manifest-intact</h3>
+      <p>Every checkpoint signature and content hash verified, end to end.</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--invalid)">manifest-invalid</h3>
+      <p>Something doesn't match. The reason says exactly what, and where.</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--stone-600)">no-manifest</h3>
+      <p>No provenance claim found. Honest absence — never a guess.</p>
+    </div>
+  </section>
+
+  <section class="strip">
+    <p>Others score how fake a file might look. basanite proves what happened to it.
+    <span class="dim2">Detection guesses what a file is. We prove what happened to it —
+    post-quantum signatures, offline verification, keys that answer to you and no one else.</span></p>
+  </section>
+
+
+  <section class="section" id="how">
+    <div class="kicker">How it works</div>
+    <h2>Three steps. No platform in the middle.</h2>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Seal</h3>
+        <p>When you capture or finish a file, <code>basanite seal</code> binds its
+        exact bytes into a signed manifest — Ed25519 + Falcon-1024, post-quantum from day one.</p></div>
+      <div class="step"><div class="n">2</div><h3>Edit</h3>
+        <p>Every change appends a signed checkpoint. The edit history becomes part
+        of the proof — deletions and rewrites are visible, not vanishing.</p></div>
+      <div class="step"><div class="n">3</div><h3>Verify</h3>
+        <p>Anyone runs <code>basanite verify</code> — offline if they want. Signatures
+        and hashes either check out or they don't. Three verdicts, no scores.</p></div>
+    </div>
+  </section>
+
+  <section class="section demo-block" id="verify">
+    <div class="kicker">Try the actual output</div>
+    <h2>This is the real CLI. Verbatim.</h2>
+    <div class="verdict">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <pre>$ <b>basanite seal</b> q3-report.pdf --seed-file seed.hex --action capture
+
+Manifest created: q3-report.pdf.opm
+  asset_id:  909f8b55469d249ea27cdf64d1d94f71834b7ff39ccccd7b42d9b6c8599fb531
+  action:    capture
+  signer:    cec68474f487c974f78ed44bdc95995eaca0303a01f8928b3bdb40b681278f47
+
+$ <b>basanite edit</b> q3-report.pdf --seed-file seed.hex --action edit
+
+Edit appended: q3-report.pdf.opm
+  index:     1
+  action:    edit
+  checkpoints: 2
+
+$ <b>basanite verify</b> q3-report.pdf
+
+<span class="ok">manifest-intact</span> as of 1790095935
+  chunks: 1/1 matched
+<span class="dim">  verdict is a cryptographic statement about the manifest,
+  not a guarantee of ground truth.</span></pre>
+    </div>
+    <div class="verdict tampered">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <pre>$ echo "revenue up 99 percent" > q3-report.pdf   # someone tampers
+
+$ <b>basanite verify</b> q3-report.pdf
+
+<span class="bad">manifest-invalid (content-hash: chunk 0)</span>
+  reason: ContentHash { chunk: Some(0) }
+<span class="dim">  exit code 1 — "basanite verify f && publish f" halts on tampered files.</span></pre>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="kicker">Straight answers</div>
+    <h2>Questions this page would be incomplete without</h2>
+    <div class="qa"><h3>Is this deepfake detection?</h3>
+      <p>No. Detection guesses what a file is; basanite proves what happened to it.
+      The two are complements. If a file carries no manifest, we say
+      <code>no-manifest</code> — we don't pretend to know.</p></div>
+    <div class="qa"><h3>What if I lose my key?</h3>
+      <p>The manifest stays verifiable — proofs don't die with the key. New work
+      simply continues under a new key. There is no recovery server, by design.</p></div>
+    <div class="qa"><h3>Why not just use C2PA?</h3>
+      <p>C2PA is a committee standard with a trust-list gate and documented security-goal
+      failures in academic audit. basanite's format is independent, the verifier is
+      free forever, and revocation is a first-class check, not an optional afterthought.</p></div>
+    <div class="qa"><h3>Does the verifier phone home?</h3>
+      <p>No. No telemetry, no account, no network call. Verification is local.</p></div>
+  </section>
+
+  <section class="section dl" id="download">
+    <div class="kicker">Get it</div>
+    <h2>Free verifier. Always.</h2>
+    <p class="dl-note">The verifier is free forever — honesty is not a paywall feature.
+    Signing tools for creators and newsroom workflows are on the way.</p>
+    <div class="dl-row">
+      <span class="dl-soon">Linux · macOS · Windows installers — landing with the public release</span>
+      <a class="dl-gh" href="https://github.com/KidIkaros" target="_blank" rel="noopener">built on open engines ↗</a>
+    </div>
+  </section>
+
+  <footer>
+    <span class="fm">basanite</span>
+    <span>— prove what happened. · Ikaros Digital · Verdicts are cryptographic statements about manifests, not guarantees of ground truth.</span>
+  </footer>
+
+  <footer>
+    <span class="fm">basanite</span>
+    <span>— prove what happened. · Ikaros Digital</span>
+  </footer>
+
+</div>
+</body>
+</html>

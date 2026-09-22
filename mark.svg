@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Basanite mark">
+  <!-- The Streak: gold rub-mark across the touchstone. NOT a checkmark. -->
+  <!-- Stone field -->
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="#1C1917"/>
+  <!-- subtle stone grain: two quiet facets -->
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="url(#grain)" opacity="0.35"/>
+  <defs>
+    <linearGradient id="grain" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#44403C" stop-opacity="0.9"/>
+      <stop offset="0.5" stop-color="#1C1917" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0C0A09" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="streak" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#B8962E"/>
+      <stop offset="0.55" stop-color="#D4AF37"/>
+      <stop offset="1" stop-color="#E8C95C"/>
+    </linearGradient>
+  </defs>
+  <!-- the streak: single bold diagonal, rounded caps, slight taper -->
+  <path d="M150 340 L362 172" stroke="url(#streak)" stroke-width="56" stroke-linecap="round" fill="none"/>
+  <!-- secondary short streak: the rub that made it -->
+  <path d="M196 372 L292 296" stroke="#D4AF37" stroke-width="20" stroke-linecap="round" fill="none" opacity="0.45"/>
+</svg>
