@@ -216,12 +216,14 @@ $ <b>basanite verify</b> q3-report.pdf
       free forever. Revocation is checked whenever a revocation journal is distributed
       with a file — and every verdict says plainly whether it was checked, never guessed.</p></div>
     <div class="qa"><h3>Can someone cut my edit history down?</h3>
-      <p>Signatures prove what they cover — so basanite prints each manifest's
-      <code>manifest_id</code>, and publishers can announce it (their website, a
-      receipt, the work itself). Verifiers pass it to <code>basanite verify
-      --expect-manifest-id</code>, and any trimmed or rolled-back history fails with
-      <code>manifest-invalid</code>. Without an announced anchor, a shortened history
-      can only ever look like a shorter one — we say so instead of pretending otherwise.</p></div>
+      <p>Signatures prove what they cover — so publishers announce their manifest
+      head: <code>basanite anchor file</code> writes a signed announcement to post
+      where attackers can't rewrite it (your website, a receipt, the work itself).
+      Verifiers keep the <code>.anchor</code> file beside the file — or pass
+      <code>--expect-manifest-id</code> — and any trimmed or substituted history fails
+      with <code>manifest-invalid (head-anchor)</code>. Without an anchor, a shortened
+      history can only ever look like a shorter one — every verdict says so plainly
+      instead of pretending otherwise.</p></div>
     <div class="qa"><h3>Does the verifier phone home?</h3>
       <p>No. No telemetry, no account, no network call. Verification is local.</p></div>
   </section>
