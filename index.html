@@ -17,7 +17,8 @@
   nav img { width:34px; height:34px; }
   .wordmark { font-size:20px; letter-spacing:0.02em; color:var(--paper-50); font-weight:600; }
   nav .spacer { flex:1; }
-  nav a { color:var(--stone-600); text-decoration:none; font-size:15px; margin-left:28px; }
+  nav { flex-wrap:wrap; } 
+  nav a { color:var(--stone-600); text-decoration:none; font-size:15px; margin-left:22px; }
   nav a.get { color:var(--gold-500); }
   /* ── hero ── */
   .hero { padding:96px 8px 72px; max-width:860px; }
@@ -33,7 +34,8 @@
   .verdict .bar { display:flex; gap:7px; padding:12px 16px; border-bottom:1px solid #2c2925; }
   .verdict .bar i { width:11px; height:11px; border-radius:50%; background:#2c2925; }
   .verdict pre { padding:22px 24px 26px; font-family:ui-monospace,'JetBrains Mono',monospace;
-                 font-size:15.5px; line-height:1.75; color:var(--paper-50); }
+                 font-size:15.5px; line-height:1.75; color:var(--paper-50);
+                 white-space:pre-wrap; overflow-wrap:anywhere; overflow-x:hidden; }
   .ok { color:var(--gold-500); font-weight:600; }
   .dim { color:var(--stone-600); }
   /* ── three verdicts row ── */
@@ -48,6 +50,7 @@
            background:#141210; max-width:900px; }
   .strip p { font-size:19px; line-height:1.6; }
   .strip .dim2 { color:var(--stone-600); display:block; margin-top:10px; font-size:15.5px; }
+  span, .kicker { overflow-wrap:anywhere; }
   /* ── footer ── */
   footer { margin-top:110px; padding:30px 8px 44px; border-top:1px solid #2c2925;
            display:flex; align-items:center; gap:12px; }
@@ -86,8 +89,9 @@
     <img src="mark.svg" alt="basanite">
     <span class="wordmark">basanite</span>
     <span class="spacer"></span>
+    <a href="#how">how it works</a>
     <a href="#verify">verify</a>
-    <a href="#newsroom">newsrooms</a>
+    <a href="#faq">faq</a>
     <a class="get" href="#download">download</a>
   </nav>
 
