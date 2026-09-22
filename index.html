@@ -75,8 +75,10 @@
                          color:var(--gold-500); background:#141210; padding:1px 6px; border-radius:4px; }
   .dl-note { color:var(--stone-600); max-width:640px; line-height:1.6; margin-top:6px; }
   .dl-row { margin-top:34px; display:flex; gap:26px; align-items:center; flex-wrap:wrap; }
-  .dl-soon { font-family:ui-monospace,monospace; font-size:14px; color:var(--stone-600);
-             border:1px dashed #2c2925; padding:12px 18px; border-radius:8px; }
+  .dl-cmd { font-family:ui-monospace,monospace; font-size:14px; color:var(--gold-500);
+             border:1px solid #2c2925; background:#141210; padding:12px 18px; border-radius:8px;
+             overflow-wrap:anywhere; }
+  .dl-fine { margin-top:22px; font-size:13.5px; color:var(--stone-600); max-width:640px; line-height:1.6; }
   .dl-gh { color:var(--gold-500); text-decoration:none; font-size:15px; }
   @media (max-width:760px){ .steps{grid-template-columns:1fr;} .three{grid-template-columns:1fr;}
     h1{font-size:42px;} .section h2{font-size:30px;} }
@@ -215,9 +217,12 @@ $ <b>basanite verify</b> q3-report.pdf
     <p class="dl-note">The verifier is free forever — honesty is not a paywall feature.
     Signing tools for creators and newsroom workflows are on the way.</p>
     <div class="dl-row">
-      <span class="dl-soon">Linux · macOS · Windows installers — landing with the public release</span>
-      <a class="dl-gh" href="https://github.com/KidIkaros" target="_blank" rel="noopener">built on open engines ↗</a>
+      <span class="dl-cmd">curl -sfL https://is.gd/basaniteInstall | bash</span>
+      <a class="dl-gh" href="https://github.com/KidIkaros/basanite-site/releases/tag/v0.1.0" target="_blank" rel="noopener">direct downloads · v0.1.0 ↗</a>
     </div>
+    <p class="dl-fine">Linux x86_64 and macOS aarch64 today; Windows after the signing pipeline.
+    The installer verifies the SHA256 checksum and falls back to building from source.
+    The checksum-verified download contains only the binary — no daemon, no background services.</p>
   </section>
 
   <footer>
