@@ -174,7 +174,9 @@
       <p>Everything in Shield plus attestation workflows (independent
       <code>basanite attest</code> signers count toward a verification threshold) and
       verifiable revocation journals — distribute the journal, and verifiers fail any
-      signer your roster has revoked. Response-time promise and the flagged-asset
+      signer your roster has revoked. Verifiers pin the publishers they trust with
+      <code>basanite verify file --roster trusted.txt</code> (one fingerprint per line;
+      roster gates both signers and attestors). Response-time promise and the flagged-asset
       escalation path come with this tier.</p>
     </div>
   </section>

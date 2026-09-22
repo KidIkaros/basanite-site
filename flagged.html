@@ -108,11 +108,14 @@ sha256sum evidence.wav evidence.wav.opm evidence.wav.anchor 2&gt;/dev/null | tee
 basanite verify evidence.wav \
   --sidecar evidence.wav.opm \
   --anchor  evidence.wav.anchor \
-  --journal journal.jsonl</pre>
+  --journal journal.jsonl \
+  --roster  trusted.txt   <span class="c"># pin the publisher you trust (one fingerprint per line)</span></pre>
       <p>With the publisher's anchor applied, a trimmed or substituted history fails as
       <code>manifest-invalid (head-anchor)</code> instead of passing silently. With a journal
-      present, keys the publisher revoked fail as revoked. Get these files from whoever
-      published the asset — they are small, plain JSON, and meant to travel.</p>
+      present, keys the publisher revoked fail as revoked. With a roster, verification is
+      pinned to publishers you trust — an off-roster signer or attestor fails even if its
+      signatures are otherwise valid. Get these files from whoever
+      published the asset — they are small, plain text or JSON, and meant to travel.</p>
     </div>
 
     <div class="step">
