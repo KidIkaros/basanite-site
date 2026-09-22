@@ -1,0 +1,209 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>basanite — terms of service</title>
+<style>
+  :root {
+    --stone-900:#1C1917; --stone-600:#44403C; --gold-500:#D4AF37;
+    --paper-50:#FAFAF9; --ink-900:#0C0A09; --invalid:#DC2626;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--stone-900); color:var(--paper-50);
+         font-family:ui-sans-serif,system-ui,'Inter','Helvetica Neue',sans-serif; }
+  .frame { max-width:1180px; margin:0 auto; padding:0; }
+  nav { display:flex; align-items:center; gap:14px; padding:26px 8px; flex-wrap:wrap; }
+  nav img { width:34px; height:34px; }
+  .wordmark { font-size:20px; letter-spacing:0.02em; color:var(--paper-50); font-weight:600; }
+  nav .spacer { flex:1; }
+  nav a { color:var(--stone-600); text-decoration:none; font-size:15px; margin-left:22px; }
+  nav a.get { color:var(--gold-500); }
+  .hero { padding:80px 8px 8px; max-width:860px; }
+  .kicker { font-family:ui-monospace,'JetBrains Mono',monospace; font-size:13px;
+            letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-600); margin-bottom:26px; }
+  h1 { font-size:52px; line-height:1.06; font-weight:700; letter-spacing:-0.02em; }
+  h1 .streak { color:var(--gold-500); }
+  .sub { margin-top:24px; font-size:19px; line-height:1.55; color:var(--stone-600); max-width:660px; }
+  .sub strong { color:var(--paper-50); font-weight:600; }
+  .notice { margin:34px 8px 0; padding:22px 28px; border-left:3px solid var(--gold-500);
+            background:#141210; max-width:900px; }
+  .notice p { font-size:15.5px; line-height:1.65; color:var(--stone-600); }
+  .notice p strong { color:var(--paper-50); }
+  .section { padding:60px 8px 0; max-width:900px; }
+  .section h2 { font-size:24px; letter-spacing:-0.01em; margin-bottom:12px; padding-top:10px; }
+  .section p, .section li { font-size:15.5px; line-height:1.75; color:var(--stone-600); }
+  .section p strong, .section li strong { color:var(--paper-50); font-weight:600; }
+  .section ul { margin:10px 0 0 20px; }
+  .section li { margin-bottom:8px; }
+  .clause { border-left:3px solid #2c2925; padding:14px 0 14px 22px; margin-top:18px; }
+  .clause.gold { border-left-color:var(--gold-500); }
+  footer { margin-top:100px; padding:30px 8px 44px; border-top:1px solid #2c2925;
+           display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  footer span { color:var(--stone-600); font-size:14px; }
+  footer .fm { font-family:ui-monospace,monospace; color:var(--paper-50); }
+  @media (max-width:760px){ h1{font-size:36px;} .section h2{font-size:22px;} }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <nav>
+    <img src="mark.svg" alt="basanite">
+    <span class="wordmark">basanite</span>
+    <span class="spacer"></span>
+    <a href="index.html">home</a>
+    <a href="docs.html">docs</a>
+    <a href="flagged.html">support</a>
+    <a class="get" href="index.html#download">download</a>
+  </nav>
+
+  <section class="hero">
+    <div class="kicker">Legal · terms of service</div>
+    <h1>Plain terms for a<br><span class="streak">plain-language product.</span></h1>
+    <p class="sub">The short version, then the standard version. If these terms and the
+    product's verdict output ever seem to disagree, <strong>the verdict output wins</strong> —
+    it is the product; this page is only its legal description.</p>
+  </section>
+
+  <div class="notice">
+    <p><strong>Draft pending counsel review.</strong> These terms are drafted from standard
+    software AS-IS boilerplate plus the two product-specific clauses our operating playbook
+    requires (§4 and §5 below). They are scheduled for review by counsel for Ikaros Digital
+    LLC before paid tiers activate. The free verifier is offered under these terms as posted.</p>
+  </div>
+
+  <section class="section">
+    <h2>1 · Who this agreement is between</h2>
+    <p>These terms are between <strong>you</strong> and <strong>Ikaros Digital LLC</strong>
+    ("we", "us") and govern your use of the <strong>basanite</strong> software — the command-line
+    program, its documentation, and the files it produces — whether you use the free verifier
+    or a paid tier.</p>
+  </section>
+
+  <section class="section">
+    <h2>2 · What basanite is — and is not</h2>
+    <p>basanite records and verifies <strong>provenance histories</strong>: it seals the bytes
+    of a file into a signed manifest, records subsequent edits, and lets anyone verify that
+    the file's present bytes match the recorded history. That is all it does, and the product
+    is explicit about everything it does not do.</p>
+    <ul>
+      <li>It is <strong>not detection software</strong>. It does not tell you whether a file
+      is "real", authentic, or truthful — it tells you whether the bytes match the recorded,
+      signed history that accompanies them.</li>
+      <li>It is <strong>not a certification, notarization, or record of facts</strong>. Sealing
+      a file proves when a key signed those bytes, not that the file's contents are accurate.</li>
+      <li>It operates <strong>offline</strong> and does not transmit your files, keys, or
+      manifests anywhere. No telemetry.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>3 · The three verdicts</h2>
+    <p>Every verification ends in exactly one of three states, described in plain language on
+    the <a href="docs.html" style="color:var(--gold-500)">docs page</a>:
+    <strong>manifest-intact</strong> (exit 0 — the bytes match the recorded history),
+    <strong>manifest-invalid</strong> (exit 1 — they do not, or the history itself fails a
+    check), and <strong>no-manifest</strong> (exit 1 — no claim exists). Each verdict prints
+    what was checked and what was not, including revocation-journal status.</p>
+  </section>
+
+  <section class="section">
+    <h2>4 · What a verdict means (the clause that matters)</h2>
+    <div class="clause gold">
+      <p><strong>A verdict is a cryptographic statement about the manifest and the file it
+      accompanies — not a guarantee of ground truth.</strong> "manifest-intact" means the
+      file's present bytes match the signed history that was presented with it. It does not
+      mean the file is authentic, unaltered before its first recorded signature, or that the
+      events it depicts actually occurred. <strong>A file whose history was sealed from the
+      start can still be a lie from before its first signature</strong> — an intact verdict on
+      fabricated media proves only that the fabrication was recorded consistently.</p>
+    </div>
+    <ul>
+      <li>Verdicts are only as meaningful as the <strong>recorded history presented with the
+      file</strong>. Without the publisher's signed head anchor, a shortened history cannot be
+      distinguished from a short one; every unanchored verdict says so in its output.</li>
+      <li>Verification is <strong>pinned to keys, not people</strong>. A roster or an embedded
+      key binds a fingerprint to a verification; binding that fingerprint to a person or
+      organization is an out-of-band act you perform, not one the software performs.</li>
+      <li>Verification with the publisher's key on your roster, an applied anchor, and a
+      healthy revocation journal is the <strong>strongest verification the product can
+      express</strong> — and it is still subject to this section.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>5 · Your keys, your files, your responsibility</h2>
+    <ul>
+      <li><strong>Seed files are the whole of your authority.</strong> A manifest is signed by
+      whoever holds its seed; losing a seed means losing the ability to extend that history,
+      and a stolen seed means someone else can (they still cannot rewrite existing history).
+      Keep seeds offline and backed up. We cannot recover them — there is no server, so there
+      is no reset.</li>
+      <li><strong>Sidecar manifests are part of the work.</strong> Distribute the
+      <code>.opm</code> (and any <code>.anchor</code>) alongside the asset, or a verifier has
+      nothing to verify against. "no-manifest" is not "authentic".</li>
+      <li><strong>You choose what to rely on.</strong> Verdicts are inputs to human judgment,
+      not substitutes for it.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>6 · License; acceptable use</h2>
+    <p>The software is licensed, not sold, under the terms accompanying each distribution
+    (the free verifier under its posted license; paid tiers under their subscription terms).
+    You may not misrepresent what a basanite verdict establishes — in particular, presenting
+    an intact verdict as proof of authenticity or truth of the underlying media is a
+    violation of these terms, because that is not what a verdict is (§4).</p>
+  </section>
+
+  <section class="section">
+    <h2>7 · The service is provided AS-IS</h2>
+    <div class="clause">
+      <p><strong>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+      PARTICULAR PURPOSE, AND NON-INFRINGEMENT.</strong> The entire risk as to quality,
+      performance, and accuracy of output lies with you. We do not warrant that verification
+      will be uninterrupted, error-free, or that the software will detect all forms of
+      manipulation — by design, some (such as pre-signature fabrication, §4) are outside what
+      provenance verification can express.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>8 · Limitation of liability; no indemnity for reliance</h2>
+    <div class="clause">
+      <p><strong>TO THE MAXIMUM EXTENT PERMITTED BY LAW, OUR AGGREGATE LIABILITY ARISING OUT
+      OF OR RELATING TO THE SOFTWARE IS LIMITED TO THE FEES YOU PAID US IN THE TWELVE (12)
+      MONTHS PRECEDING THE CLAIM</strong> (zero, for use of the free verifier). <strong>IN NO
+      EVENT WILL WE BE LIABLE FOR LOST PROFITS, LOST DATA, OR ANY INDIRECT, INCIDENTAL,
+      SPECIAL, OR CONSEQUENTIAL DAMAGES.</strong> Nothing in these terms obligates us to
+      defend or indemnify you against claims arising from your reliance on verdicts in
+      high-stakes decisions — editorial, legal, financial, safety, or otherwise. A verdict is
+      evidence about file histories; treat it as one input among several, never as the sole
+      basis for action.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>9 · Paid tiers (when they exist)</h2>
+    <p>Tier benefits — attestation workflows, revocation-journal distribution, response-time
+    promises, escalation — are described on the site and in your order. Paid tiers do not
+    alter §§2, 4, 7, or 8: they buy workflow and support capacity, <strong>not a warranty of
+    accuracy</strong>, and no tier includes indemnity for reliance on verdicts.</p>
+  </section>
+
+  <section class="section">
+    <h2>10 · Changes; termination; contact</h2>
+    <p>We may update these terms; the version in effect is the one posted here, with paid
+    subscribers notified of material changes. You may stop using the software at any time;
+    sections 4, 7, and 8 survive. Questions:
+    <strong style="color:var(--paper-50)">support@ikaros.digital</strong>.</p>
+  </section>
+
+  <footer>
+    <span class="fm">basanite</span>
+    <span>— prove what happened. · Ikaros Digital · Verdicts are cryptographic statements about manifests, not guarantees of ground truth.</span>
+  </footer>
+</div>
+</body>
+</html>
