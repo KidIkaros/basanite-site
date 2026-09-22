@@ -1,0 +1,213 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>basanite — your product flagged our asset</title>
+<style>
+  :root {
+    --stone-900:#1C1917; --stone-600:#44403C; --gold-500:#D4AF37;
+    --paper-50:#FAFAF9; --ink-900:#0C0A09; --invalid:#DC2626;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--stone-900); color:var(--paper-50);
+         font-family:ui-sans-serif,system-ui,'Inter','Helvetica Neue',sans-serif; }
+  .frame { max-width:1180px; margin:0 auto; padding:0; }
+  nav { display:flex; align-items:center; gap:14px; padding:26px 8px; flex-wrap:wrap; }
+  nav img { width:34px; height:34px; }
+  .wordmark { font-size:20px; letter-spacing:0.02em; color:var(--paper-50); font-weight:600; }
+  nav .spacer { flex:1; }
+  nav a { color:var(--stone-600); text-decoration:none; font-size:15px; margin-left:22px; }
+  nav a.get { color:var(--gold-500); }
+  .hero { padding:80px 8px 8px; max-width:860px; }
+  .kicker { font-family:ui-monospace,'JetBrains Mono',monospace; font-size:13px;
+            letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-600); margin-bottom:26px; }
+  h1 { font-size:52px; line-height:1.06; font-weight:700; letter-spacing:-0.02em; }
+  h1 .streak { color:var(--gold-500); }
+  .sub { margin-top:24px; font-size:19px; line-height:1.55; color:var(--stone-600); max-width:660px; }
+  .sub strong { color:var(--paper-50); font-weight:600; }
+  .section { padding:72px 8px 0; max-width:980px; }
+  .section h2 { font-size:34px; letter-spacing:-0.015em; margin-bottom:14px; }
+  .step { border-top:1px solid #2c2925; padding:30px 0 10px; max-width:860px; }
+  .step .n { font-family:ui-monospace,monospace; color:var(--gold-500); font-size:14px; margin-bottom:12px; }
+  .step h3 { font-size:20px; margin-bottom:10px; }
+  .step p { font-size:15px; line-height:1.7; color:var(--stone-600); margin-bottom:10px; }
+  .step p strong, .step li strong { color:var(--paper-50); font-weight:600; }
+  .step code { font-family:ui-monospace,monospace; font-size:0.9em; color:var(--gold-500);
+               background:#141210; padding:1px 6px; border-radius:4px; overflow-wrap:anywhere; }
+  .step pre { background:#141210; border:1px solid #2c2925; border-radius:10px;
+              padding:18px 20px; font-family:ui-monospace,'JetBrains Mono',monospace;
+              font-size:13.5px; line-height:1.7; color:var(--paper-50);
+              white-space:pre-wrap; overflow-wrap:anywhere; margin:14px 0; }
+  .step pre .c { color:var(--stone-600); }
+  .verdict { background:#141210; border:1px solid #2c2925;
+             border-radius:12px; max-width:820px; overflow:hidden; margin:14px 0; }
+  .verdict pre { padding:20px 22px; font-family:ui-monospace,'JetBrains Mono',monospace;
+                 font-size:14px; line-height:1.7; color:var(--paper-50);
+                 white-space:pre-wrap; overflow-wrap:anywhere; }
+  .bad { color:var(--invalid); font-weight:600; }
+  .strip { margin:72px 8px 0; padding:34px 36px; border-left:3px solid var(--gold-500);
+           background:#141210; max-width:900px; }
+  .strip p { font-size:19px; line-height:1.6; }
+  .strip p strong { color:var(--paper-50); }
+  footer { margin-top:100px; padding:30px 8px 44px; border-top:1px solid #2c2925;
+           display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  footer span { color:var(--stone-600); font-size:14px; }
+  footer .fm { font-family:ui-monospace,monospace; color:var(--paper-50); }
+  @media (max-width:760px){ h1{font-size:36px;} .section h2{font-size:28px;} }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <nav>
+    <img src="mark.svg" alt="basanite">
+    <span class="wordmark">basanite</span>
+    <span class="spacer"></span>
+    <a href="index.html">home</a>
+    <a href="docs.html">what a verdict means</a>
+    <a class="get" href="index.html#download">download</a>
+  </nav>
+
+  <section class="hero">
+    <div class="kicker">Runbook · flagged assets</div>
+    <h1>"Your product flagged<br>our asset." <span class="streak">Good. Now prove it back.</span></h1>
+    <p class="sub">A verification came back <strong>manifest-invalid</strong> on a file you
+    received, published, or hold custody of. This page is the procedure: preserve evidence,
+    re-verify with everything the publisher distributed, classify the failure, and write the
+    custody note — before anyone edits, re-saves, or re-encodes anything.</p>
+  </section>
+
+  <section class="section">
+    <h2>The procedure</h2>
+
+    <div class="step">
+      <div class="n">STEP 0</div>
+      <h3>Freeze the evidence</h3>
+      <p><strong>Do not edit, re-save, re-encode, convert, or open-and-save the file.</strong>
+      Any of those changes the bytes, and the bytes are the evidence. Work on copies from here
+      on; keep the originals read-only.</p>
+    </div>
+
+    <div class="step">
+      <div class="n">STEP 1</div>
+      <h3>Capture the full verdict, not the headline</h3>
+      <p>Re-run verify and save the complete output, including the checked/not-checked footer:</p>
+      <pre><span class="c"># capture everything — verdict, reason, footer</span>
+basanite verify evidence.wav 2&gt;&1; | tee verify-log.txt
+sha256sum evidence.wav evidence.wav.opm evidence.wav.anchor 2&gt;/dev/null | tee custody-hashes.txt</pre>
+      <p>The <code>reason:</code> line is the diagnosis. The footer records what the tool
+      could and could not check at that moment — that distinction matters later.</p>
+    </div>
+
+    <div class="step">
+      <div class="n">STEP 2</div>
+      <h3>Re-verify with everything the publisher published</h3>
+      <p>The default run checks only what sits beside the file. If the publisher distributed
+      a signed head anchor or a revocation journal, re-run with them:</p>
+      <pre><span class="c"># full-strength verification</span>
+basanite verify evidence.wav \
+  --sidecar evidence.wav.opm \
+  --anchor  evidence.wav.anchor \
+  --journal journal.jsonl</pre>
+      <p>With the publisher's anchor applied, a trimmed or substituted history fails as
+      <code>manifest-invalid (head-anchor)</code> instead of passing silently. With a journal
+      present, keys the publisher revoked fail as revoked. Get these files from whoever
+      published the asset — they are small, plain JSON, and meant to travel.</p>
+    </div>
+
+    <div class="step">
+      <div class="n">STEP 3</div>
+      <h3>Classify the failure</h3>
+      <p>Match the reason to the meaning (full definitions on <a href="docs.html" style="color:var(--gold-500)">what a verdict means</a>):</p>
+      <pre><span class="bad">manifest-invalid (content-hash: chunk N)</span>
+    <span class="c">→ the file's present bytes differ from the sealed history.
+    The change happened after sealing — by an edit that was never
+    recorded, by corruption in transit, or by tampering.</span>
+
+<span class="bad">manifest-invalid (head-anchor)</span>
+    <span class="c">→ the history present is shorter than or different from what
+    the publisher signed. Someone cut or rewrote the edit trail.</span>
+
+<span class="bad">manifest-invalid (signature …)</span>
+    <span class="c">→ a checkpoint signature does not verify. The manifest was
+    forged or altered, or the signer's keys changed without rotation.</span>
+
+manifest-invalid (signer-revoked …)
+    <span class="c">→ a signing key on this history appears in the publisher's
+    revocation journal.</span>
+
+<span class="bad">no-manifest</span>
+    <span class="c">→ no claim exists (or the sidecar was lost). Unverified is
+    not authentic — but it is also not proof of fraud.</span></pre>
+    </div>
+
+    <div class="step">
+      <div class="n">STEP 4</div>
+      <h3>Write the chain-of-custody note</h3>
+      <p>Before the file moves to anyone else — counsel, the platform, the other party —
+      write down what you hold and how it reached you. Template:</p>
+      <pre>CUSTODY NOTE — flagged asset
+Date/time (UTC):        2026-__-__ __:__
+Custodian:              [name, role, org]
+Source of file:         [who sent it, channel, when; keep the original message]
+Received checksum:      sha256: [from custody-hashes.txt]
+Verified with:          basanite [version from `basanite --version`]
+Verdict:                [headline line from verify-log.txt]
+Reason:                 [reason line]
+Footer limitations:     [what the footer said was NOT checked]
+Anchor/journal used:    [yes/no — paths + their sha256]
+Actions taken:          [none / copies made for: …]
+Originals location:     [read-only storage path, who has access]
+Contact on record:      [publisher/counterparty, channel]
+
+Note: verdicts are cryptographic statements about the file's recorded
+history, not findings of fact about who did what. This note records
+evidence handling only.</pre>
+      <p>That last line is the honesty clause, and it protects <strong>you</strong>: the
+      verdict says the bytes differ from the sealed history. It does not say who changed
+      them, when, or why — that determination belongs to the humans holding the custody
+      chain.</p>
+    </div>
+
+    <div class="step">
+      <div class="n">STEP 5</div>
+      <h3>Take the finding to the counterparty</h3>
+      <p>If the asset came from someone else, the finding is theirs to answer: send them the
+      verify log, the custody note, and a request for the original <code>.opm</code> /
+      <code>.anchor</code> pair plus their seed-handling practices. A legitimate publisher
+      can re-verify on their side in seconds and either produce matching evidence or
+      acknowledge the discrepancy. If <strong>you</strong> are the publisher: re-run the same
+      commands on your master copy, and if your copy verifies while the distributed copy does
+      not, the divergence happened in distribution — the custody notes on both sides are how
+      you find where.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Escalation</h2>
+    <div class="strip">
+      <p><strong>Newsroom tier:</strong> flagged-asset escalations go to
+      <strong>support@ikaros.digital</strong> with the custody note and verify log attached —
+      response-time promise per your agreement. <strong>Everyone else:</strong> the docs on
+      this site plus the runbook above are the support channel for now; file handling at this
+      tier is deliberately your hands, your tools, your records.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>What basanite will not do</h2>
+    <p style="color:var(--stone-600); max-width:760px; line-height:1.7;">
+    It will not tell you who changed a file, restore the original bytes, attribute intent, or
+    certify that a sealed file is "true." It proves what happened to a file <em>relative to
+    its recorded history</em> — and it refuses to guess about anything else. That refusal is
+    the product. Everything above the line of cryptography is your record-keeping, and the
+    custody note is what makes the verdict usable in front of a third party.</p>
+  </section>
+
+  <footer>
+    <span class="fm">basanite</span>
+    <span>— prove what happened. · Ikaros Digital · Verdicts are cryptographic statements about manifests, not guarantees of ground truth.</span>
+  </footer>
+</div>
+</body>
+</html>

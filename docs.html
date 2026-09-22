@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>basanite — what a verdict means</title>
+<style>
+  :root {
+    --stone-900:#1C1917; --stone-600:#44403C; --gold-500:#D4AF37;
+    --paper-50:#FAFAF9; --ink-900:#0C0A09; --invalid:#DC2626;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--stone-900); color:var(--paper-50);
+         font-family:ui-sans-serif,system-ui,'Inter','Helvetica Neue',sans-serif; }
+  .frame { max-width:1180px; margin:0 auto; padding:0; }
+  nav { display:flex; align-items:center; gap:14px; padding:26px 8px; flex-wrap:wrap; }
+  nav img { width:34px; height:34px; }
+  .wordmark { font-size:20px; letter-spacing:0.02em; color:var(--paper-50); font-weight:600; }
+  nav .spacer { flex:1; }
+  nav a { color:var(--stone-600); text-decoration:none; font-size:15px; margin-left:22px; }
+  nav a.get { color:var(--gold-500); }
+  .hero { padding:80px 8px 8px; max-width:860px; }
+  .kicker { font-family:ui-monospace,'JetBrains Mono',monospace; font-size:13px;
+            letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-600); margin-bottom:26px; }
+  h1 { font-size:52px; line-height:1.06; font-weight:700; letter-spacing:-0.02em; }
+  h1 .streak { color:var(--gold-500); }
+  .sub { margin-top:24px; font-size:19px; line-height:1.55; color:var(--stone-600); max-width:640px; }
+  .sub strong { color:var(--paper-50); font-weight:600; }
+  .section { padding:72px 8px 0; max-width:980px; }
+  .section h2 { font-size:34px; letter-spacing:-0.015em; margin-bottom:14px; }
+  .verdict { margin:34px 0 0 8px; background:#141210; border:1px solid #2c2925;
+             border-radius:12px; max-width:820px; overflow:hidden; }
+  .verdict .bar { display:flex; gap:7px; padding:12px 16px; border-bottom:1px solid #2c2925; }
+  .verdict .bar i { width:11px; height:11px; border-radius:50%; background:#2c2925; }
+  .verdict pre { padding:22px 24px 26px; font-family:ui-monospace,'JetBrains Mono',monospace;
+                 font-size:14.5px; line-height:1.7; color:var(--paper-50);
+                 white-space:pre-wrap; overflow-wrap:anywhere; overflow-x:hidden; }
+  .ok { color:var(--gold-500); font-weight:600; }
+  .bad { color:var(--invalid); font-weight:600; }
+  .dim { color:var(--stone-600); }
+  .means { max-width:760px; margin-top:22px; }
+  .means h3 { font-size:18px; margin-bottom:8px; }
+  .means ul { margin:8px 0 0 20px; }
+  .means li { font-size:15px; line-height:1.7; color:var(--stone-600); margin-bottom:6px; }
+  .means li strong { color:var(--paper-50); font-weight:600; }
+  .means .yes::before { content:"✓ "; color:var(--gold-500); font-weight:700; }
+  .means .no::before  { content:"✗ "; color:var(--invalid); font-weight:700; }
+  .strip { margin:72px 8px 0; padding:34px 36px; border-left:3px solid var(--gold-500);
+           background:#141210; max-width:900px; }
+  .strip p { font-size:19px; line-height:1.6; }
+  .qa { border-top:1px solid #2c2925; padding:26px 0 8px; max-width:860px; }
+  .qa h3 { font-size:18px; margin-bottom:8px; color:var(--paper-50); }
+  .qa p { font-size:15px; line-height:1.65; color:var(--stone-600); }
+  .qa code { font-family:ui-monospace,monospace; font-size:0.9em; color:var(--gold-500);
+             background:#141210; padding:1px 6px; border-radius:4px; }
+  footer { margin-top:100px; padding:30px 8px 44px; border-top:1px solid #2c2925;
+           display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  footer span { color:var(--stone-600); font-size:14px; }
+  footer .fm { font-family:ui-monospace,monospace; color:var(--paper-50); }
+  @media (max-width:760px){ h1{font-size:36px;} .section h2{font-size:28px;} }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <nav>
+    <img src="mark.svg" alt="basanite">
+    <span class="wordmark">basanite</span>
+    <span class="spacer"></span>
+    <a href="index.html">home</a>
+    <a href="flagged.html">flagged-asset runbook</a>
+    <a class="get" href="index.html#download">download</a>
+  </nav>
+
+  <section class="hero">
+    <div class="kicker">Docs · verdicts</div>
+    <h1>Three verdicts.<br>Exactly what each <span class="streak">means.</span></h1>
+    <p class="sub">Every <strong>basanite verify</strong> ends in one of three states, printed in
+    plain language with an exit code scripts can trust. The output below is real (v0.1.5),
+    not an illustration.</p>
+  </section>
+
+  <section class="section">
+    <h2>1 · <span style="color:var(--gold-500)">manifest-intact</span> — exit 0</h2>
+    <div class="verdict">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <pre>$ basanite verify clip.wav
+
+<span class="ok">manifest-intact</span> as of 1790109683
+  chunks: 1/1 matched
+  signer: 4151ffdd4042a6a0c634cf6e98d2ac8f57afabef5c5cd487dda036eee766cef2
+  manifest_id: 5a40d5401a0fdd4ccd81defc7940ae4334a61d073ca090be4bd8700e0da8feb3
+  note: no publisher head anchor was applied — a shortened edit history cannot be detected from the manifest alone (see 'basanite anchor --help')
+  checked: canonical edit order, content binding (whole file + chunks), MMR replay at every checkpoint, checkpoint signatures (Ed25519+Falcon), timestamp sanity, attestation binding. revocation NOT checked: no journal found (absence of a journal is not evidence of absence of revocation). not checked: metadata (ignored), watermark (hint only), timestamps are signer-asserted not TSA-attested.</pre>
+    </div>
+    <div class="means">
+      <h3>This means:</h3>
+      <ul>
+        <li class="yes"><strong>The bytes you verified are the bytes that were sealed or edited,</strong> at every step of the recorded history — content hashes, checkpoint signatures (Ed25519 + Falcon), and the MMR replay all check out.</li>
+        <li class="yes"><strong>The history that is present is internally consistent</strong> — nothing in it was forged, reordered, or rewritten.</li>
+        <li class="no"><strong>It does not prove this is the WHOLE history.</strong> Without the publisher's signed head anchor (<code>basanite anchor</code>, the <code>.anchor</code> file beside the asset), a shortened history is indistinguishable from a short one. The verdict says plainly when no anchor was applied — that note is part of the output above.</li>
+        <li class="no"><strong>It does not prove ground truth.</strong> A verdict is a cryptographic statement about the manifest — not a judgment that the underlying events happened as described.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>2 · <span style="color:var(--invalid)">manifest-invalid</span> — exit 1</h2>
+    <div class="verdict">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <pre>$ basanite verify clip.wav
+
+<span class="bad">manifest-invalid (content-hash: chunk 0)</span>
+  reason: ContentHash { chunk: Some(0) }
+  checked: canonical edit order, content binding (whole file + chunks), MMR replay at every checkpoint, checkpoint signatures (Ed25519+Falcon), timestamp sanity, attestation binding. revocation (not enforced on this failure path). not checked: metadata (ignored), watermark (hint only), timestamps are signer-asserted not TSA-attested.</pre>
+    </div>
+    <div class="means">
+      <h3>This means:</h3>
+      <ul>
+        <li class="yes"><strong>The file's present bytes do not match the sealed history</strong> — in this example, the first content chunk's hash no longer matches. The reason names exactly what failed and where.</li>
+        <li class="yes"><strong>Do not trust the file's content.</strong> If the change was yours (a normal edit without re-sealing), re-seal is not the answer — edit through the tool so the history records it. If the change was not yours, treat the file as tampered: preserve it and see the <a href="flagged.html" style="color:var(--gold-500)">flagged-asset runbook</a>.</li>
+        <li class="yes"><strong>Exit code 1 by contract.</strong> <code>basanite verify file && publish file</code> halts on tampering — a tampered file cannot pass a scripted gate.</li>
+        <li class="no"><strong>It does not tell you who changed the file.</strong> The verdict locates the mismatch; attribution lives in your custody chain, not in cryptography.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>3 · <span class="dim">no-manifest</span> — exit 1</h2>
+    <div class="verdict">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <pre>$ basanite verify other.txt
+
+<span class="dim">no-manifest (no sidecar at other.txt.opm)</span>
+  discovery: no sidecar at other.txt.opm
+  discovery: no watermark marker found
+  checked: canonical edit order, content binding (whole file + chunks), MMR replay at every checkpoint, checkpoint signatures (Ed25519+Falcon), timestamp sanity, attestation binding. revocation (not reached — no manifest found). not checked: metadata (ignored), watermark (hint only), timestamps are signer-asserted not TSA-attested.</pre>
+    </div>
+    <div class="means">
+      <h3>This means:</h3>
+      <ul>
+        <li class="yes"><strong>No provenance claim exists for this file</strong> — no sidecar manifest, and no watermark hint pointing at one. Nothing was checked, because there was nothing to check against.</li>
+        <li class="yes"><strong>Exit code 1 by contract.</strong> "No claim" is not "authentic" — unverified is unverified, and scripts treat it the same as tampered.</li>
+        <li class="no"><strong>It does not mean the file is fraudulent.</strong> It means no history was ever sealed (or the sidecar was lost — see the runbook for recovery).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>The footer is the honesty clause</h2>
+    <div class="strip">
+      <p>Every verdict — all three states — prints the same footer: what was checked, what was not, and whether revocation was enforced. If a journal was present, revoked signers fail the manifest. If none was found, the footer says so — <em style="color:var(--paper-50)">absence of a journal is not evidence of absence of revocation.</em></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Quickstart per tier</h2>
+    <div class="qa">
+      <h3>Verify (free, forever)</h3>
+      <p><code>curl -sfL https://kidikaros.github.io/basanite-site/install.sh | bash</code> —
+      then <code>basanite verify file</code>. You get all three verdicts, the full footer,
+      and the exit-code contract. Verifying never costs anything and never phones home.</p>
+    </div>
+    <div class="qa">
+      <h3>Shield ($15/mo)</h3>
+      <p>Everything in Verify plus the sealing workflow:
+      <code>basanite seal file --seed-file key</code> to start a history,
+      <code>basanite edit file --seed-file key</code> to record each revision,
+      <code>basanite anchor file --seed-file key</code> to publish a signed head so no one
+      can trim your history undetected. Keep the <code>.opm</code> (and optional
+      <code>.anchor</code>) beside the asset or publish them alongside it.</p>
+    </div>
+    <div class="qa">
+      <h3>Newsroom ($500/mo, annual available)</h3>
+      <p>Everything in Shield plus attestation workflows (independent
+      <code>basanite attest</code> signers count toward a verification threshold) and
+      verifiable revocation journals — distribute the journal, and verifiers fail any
+      signer your roster has revoked. Response-time promise and the flagged-asset
+      escalation path come with this tier.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span class="fm">basanite</span>
+    <span>— prove what happened. · Ikaros Digital · Verdicts are cryptographic statements about manifests, not guarantees of ground truth.</span>
+  </footer>
+</div>
+</body>
+</html>
