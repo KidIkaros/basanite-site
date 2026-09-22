@@ -96,7 +96,17 @@ if ! curl -sfL "$BASE/$TARBALL" -o "/tmp/$TARBALL"; then
 fi
 
 if curl -sfL "$BASE/checksums.txt" -o /tmp/basanite-checksums.txt; then
-  if (cd /tmp && sha256sum -c --ignore-missing basanite-checksums.txt); then
+  # macOS has shasum, not sha256sum; use whichever exists (found in flight
+  # during the T-RT6 batch — sha256sum-only verification aborted every
+  # stock-macOS install).
+  SHA_CMD=""
+  command -v sha256sum >/dev/null 2>&1 && SHA_CMD="sha256sum"
+  [ -z "$SHA_CMD" ] && command -v shasum >/dev/null 2>&1 && SHA_CMD="shasum -a 256"
+  if [ -z "$SHA_CMD" ]; then
+    say "!! no sha256sum or shasum found — cannot verify download, aborting"
+    exit 1
+  fi
+  if (cd /tmp && $SHA_CMD -c --ignore-missing basanite-checksums.txt); then
     say "==> checksum OK"
   else
     say "!! checksum MISMATCH — aborting (do not ignore this)"
