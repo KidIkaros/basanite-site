@@ -108,12 +108,13 @@
       <div class="bar"><i></i><i></i><i></i></div>
       <pre>$ basanite verify q3-report.pdf
 
-<span class="ok">manifest-intact</span> as of 1790095935
+<span class="ok">manifest-intact</span> as of 1790102920
   chunks: 1/1 matched
-  edits:  capture → edit (2026-09-22 14:02 UTC)
-  attestations: 1 independent
-<span class="dim">  verdict is a cryptographic statement about the manifest,
-  not a guarantee of ground truth.</span></pre>
+  signer: 163893ef34220170e27ad144aa68ffa31a957e4533c0ed268d4105d606264f46
+<span class="dim">  # real output (v0.1.1). every verdict also prints its full</span>
+<span class="dim">  # checked / not-checked footer — including revocation status.</span>
+<span class="dim">  verdict is a cryptographic statement about the manifest,</span>
+<span class="dim">  not a guarantee of ground truth.</span></pre>
     </div>
   </section>
 
@@ -163,9 +164,9 @@
       <pre>$ <b>basanite seal</b> q3-report.pdf --seed-file seed.hex --action capture
 
 Manifest created: q3-report.pdf.opm
-  asset_id:  909f8b55469d249ea27cdf64d1d94f71834b7ff39ccccd7b42d9b6c8599fb531
+  asset_id:  1fb168c265bd18f38aa2fa163676d75499845aa26ab602a812827de902434893
   action:    capture
-  signer:    cec68474f487c974f78ed44bdc95995eaca0303a01f8928b3bdb40b681278f47
+  signer:    163893ef34220170e27ad144aa68ffa31a957e4533c0ed268d4105d606264f46
 
 $ <b>basanite edit</b> q3-report.pdf --seed-file seed.hex --action edit
 
@@ -174,16 +175,22 @@ Edit appended: q3-report.pdf.opm
   action:    edit
   checkpoints: 2
 
+$ <b>basanite attest</b> q3-report.pdf --seed-file attestor.hex
+
+Attestation added: q3-report.pdf.opm
+  attestor:  5da9be46c9655e88c7e438d0ca97198b30d45090c50bf51edd61936924ab6df6
+  manifest_id: cca87083b78b7bcb5c8e30208975336b9e25f128706cb609a47139f2a1b5a5e0
+
 $ <b>basanite verify</b> q3-report.pdf
 
-<span class="ok">manifest-intact</span> as of 1790095935
+<span class="ok">manifest-intact</span> as of 1790102920
   chunks: 1/1 matched
-<span class="dim">  verdict is a cryptographic statement about the manifest,
-  not a guarantee of ground truth.</span></pre>
+  signer: 163893ef34220170e27ad144aa68ffa31a957e4533c0ed268d4105d606264f46
+<span class="dim">  # …plus the full checked/not-checked footer every verdict prints.</span></pre>
     </div>
     <div class="verdict tampered">
       <div class="bar"><i></i><i></i><i></i></div>
-      <pre>$ echo "revenue up 99 percent" > q3-report.pdf   # someone tampers
+      <pre>$ echo "Q3 revenue: up 99 percent" > q3-report.pdf   # someone tampers
 
 $ <b>basanite verify</b> q3-report.pdf
 
@@ -205,8 +212,16 @@ $ <b>basanite verify</b> q3-report.pdf
       simply continues under a new key. There is no recovery server, by design.</p></div>
     <div class="qa"><h3>Why not just use C2PA?</h3>
       <p>C2PA is a committee standard with a trust-list gate and documented security-goal
-      failures in academic audit. basanite's format is independent, the verifier is
-      free forever, and revocation is a first-class check, not an optional afterthought.</p></div>
+      failures in academic audit. basanite's format is independent and the verifier is
+      free forever. Revocation is checked whenever a revocation journal is distributed
+      with a file — and every verdict says plainly whether it was checked, never guessed.</p></div>
+    <div class="qa"><h3>Can someone cut my edit history down?</h3>
+      <p>Signatures prove what they cover — so basanite prints each manifest's
+      <code>manifest_id</code>, and publishers can announce it (their website, a
+      receipt, the work itself). Verifiers pass it to <code>basanite verify
+      --expect-manifest-id</code>, and any trimmed or rolled-back history fails with
+      <code>manifest-invalid</code>. Without an announced anchor, a shortened history
+      can only ever look like a shorter one — we say so instead of pretending otherwise.</p></div>
     <div class="qa"><h3>Does the verifier phone home?</h3>
       <p>No. No telemetry, no account, no network call. Verification is local.</p></div>
   </section>
@@ -228,11 +243,6 @@ $ <b>basanite verify</b> q3-report.pdf
   <footer>
     <span class="fm">basanite</span>
     <span>— prove what happened. · Ikaros Digital · Verdicts are cryptographic statements about manifests, not guarantees of ground truth.</span>
-  </footer>
-
-  <footer>
-    <span class="fm">basanite</span>
-    <span>— prove what happened. · Ikaros Digital</span>
   </footer>
 
 </div>
