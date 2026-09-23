@@ -106,10 +106,16 @@ if curl -sfL "$BASE/checksums.txt" -o /tmp/basanite-checksums.txt; then
     say "!! no sha256sum or shasum found — cannot verify download, aborting"
     exit 1
   fi
-  if (cd /tmp && $SHA_CMD -c --ignore-missing basanite-checksums.txt); then
+  # Verify ONLY this install's tarball: `sha256sum -c --ignore-missing` would
+  # also check every other manifest entry that happens to exist in /tmp from
+  # unrelated runs — a stale/corrupt old tarball there produced a false
+  # MISMATCH abort (dogfood v0.2.0 finding).
+  EXPECTED="$($SHA_CMD /tmp/basanite-checksums.txt | awk -v t="$TARBALL" '$0 ~ t {print $1}')"
+  ACTUAL="$($SHA_CMD "/tmp/$TARBALL" | awk '{print $1}')"
+  if [ -n "$EXPECTED" ] && [ "$EXPECTED" = "$ACTUAL" ]; then
     say "==> checksum OK"
   else
-    say "!! checksum MISMATCH — aborting (do not ignore this)"
+    say "!! checksum MISMATCH for $TARBALL — aborting (do not ignore this)"
     exit 1
   fi
 fi
