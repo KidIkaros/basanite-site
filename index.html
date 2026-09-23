@@ -1,203 +1,247 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<title>basanite — the touchstone for digital media</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>basanite — prove what happened to your files</title>
+<meta name="description" content="The touchstone for digital media. Seal your files' edit history with post-quantum signatures; verify any file offline, free, forever.">
 <style>
   :root {
-    --stone-900:#1C1917; --stone-600:#44403C; --gold-500:#D4AF37;
-    --paper-50:#FAFAF9; --ink-900:#0C0A09; --invalid:#DC2626;
+    --carbon:#080808; --obsidian:#101010; --graphite:#212121; --iron:#474747;
+    --smoke:#9c9c9c; --ash:#c1c1c1; --chalk:#f3f3f3;
+    --gold:#D4AF37; --invalid:#DC2626;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--stone-900); color:var(--paper-50);
-         font-family:ui-sans-serif,system-ui,'Inter','Helvetica Neue',sans-serif; }
-  .frame { max-width:1180px; margin:0 auto; padding:0; }
-  /* ── nav ── */
-  nav { display:flex; align-items:center; gap:14px; padding:26px 8px; }
-  nav img { width:34px; height:34px; }
-  .wordmark { font-size:20px; letter-spacing:0.02em; color:var(--paper-50); font-weight:600; }
-  nav .spacer { flex:1; }
-  nav { flex-wrap:wrap; } 
-  nav a { color:var(--stone-600); text-decoration:none; font-size:15px; margin-left:22px; }
-  nav a.get { color:var(--gold-500); }
-  /* ── hero ── */
-  .hero { padding:96px 8px 72px; max-width:860px; }
-  .kicker { font-family:ui-monospace,'JetBrains Mono',monospace; font-size:13px;
-            letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-600); margin-bottom:26px; }
-  h1 { font-size:64px; line-height:1.04; font-weight:700; letter-spacing:-0.02em; }
-  h1 .streak { color:var(--gold-500); }
-  .sub { margin-top:28px; font-size:20px; line-height:1.55; color:var(--stone-600); max-width:620px; }
-  .sub strong { color:var(--paper-50); font-weight:600; }
-  /* ── verdict panel: the product IS the hero ── */
-  .verdict { margin:64px 0 0 8px; background:#141210; border:1px solid #2c2925;
-             border-radius:12px; max-width:760px; overflow:hidden; }
-  .verdict .bar { display:flex; gap:7px; padding:12px 16px; border-bottom:1px solid #2c2925; }
-  .verdict .bar i { width:11px; height:11px; border-radius:50%; background:#2c2925; }
-  .verdict pre { padding:22px 24px 26px; font-family:ui-monospace,'JetBrains Mono',monospace;
-                 font-size:15.5px; line-height:1.75; color:var(--paper-50);
-                 white-space:pre-wrap; overflow-wrap:anywhere; overflow-x:hidden; }
-  .ok { color:var(--gold-500); font-weight:600; }
-  .dim { color:var(--stone-600); }
-  /* ── three verdicts row ── */
-  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#2c2925;
-           margin:88px 8px 0; border:1px solid #2c2925; border-radius:12px; overflow:hidden; }
-  .card { background:var(--stone-900); padding:34px 30px 38px; }
-  .card h3 { font-family:ui-monospace,monospace; font-size:16px; font-weight:600; margin-bottom:12px; }
-  .card p { font-size:15px; line-height:1.6; color:var(--stone-600); }
-  .card.intact h3 { color:var(--gold-500); }
-  /* ── honesty strip ── */
-  .strip { margin:88px 8px 0; padding:34px 36px; border-left:3px solid var(--gold-500);
-           background:#141210; max-width:900px; }
-  .strip p { font-size:19px; line-height:1.6; }
-  .strip .dim2 { color:var(--stone-600); display:block; margin-top:10px; font-size:15.5px; }
-  span, .kicker { overflow-wrap:anywhere; }
-  /* ── footer ── */
-  footer { margin-top:110px; padding:30px 8px 44px; border-top:1px solid #2c2925;
-           display:flex; align-items:center; gap:12px; }
-  footer span { color:var(--stone-600); font-size:14px; }
-  footer .fm { font-family:ui-monospace,monospace; color:var(--paper-50); }
+  html { scroll-behavior:smooth; }
+  body { background:var(--obsidian); color:var(--chalk);
+         font-family:'Inter',ui-sans-serif,system-ui,'Helvetica Neue',sans-serif;
+         font-weight:400; -webkit-font-smoothing:antialiased; }
+  .mono { font-family:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace; }
+  .frame { max-width:1160px; margin:0 auto; padding:0 24px; }
 
-  .section { padding:88px 8px 0; max-width:980px; }
-  .section h2 { font-size:38px; letter-spacing:-0.015em; margin-bottom:14px; }
-  .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#2c2925;
-           border:1px solid #2c2925; border-radius:12px; overflow:hidden; margin-top:40px; }
-  .step { background:var(--stone-900); padding:30px 28px 34px; }
-  .step .n { font-family:ui-monospace,monospace; color:var(--gold-500); font-size:14px; margin-bottom:14px; }
-  .step h3 { font-size:19px; margin-bottom:10px; }
-  .step p, .qa p { font-size:15px; line-height:1.65; color:var(--stone-600); }
-  .demo-block .verdict { margin:36px 0 0; max-width:860px; }
-  .demo-block .tampered { border-color:#3a2323; }
-  .demo-block pre b { color:var(--gold-500); font-weight:600; }
-  .bad { color:var(--invalid); font-weight:600; }
-  .qa { border-top:1px solid #2c2925; padding:26px 0 8px; }
-  .qa h3 { font-size:18px; margin-bottom:8px; color:var(--paper-50); }
-  .qa code, .step code { font-family:ui-monospace,monospace; font-size:0.9em;
-                         color:var(--gold-500); background:#141210; padding:1px 6px; border-radius:4px; }
-  .dl-note { color:var(--stone-600); max-width:640px; line-height:1.6; margin-top:6px; }
-  .dl-row { margin-top:34px; display:flex; gap:26px; align-items:center; flex-wrap:wrap; }
-  .dl-cmd { font-family:ui-monospace,monospace; font-size:14px; color:var(--gold-500);
-             border:1px solid #2c2925; background:#141210; padding:12px 18px; border-radius:8px;
-             overflow-wrap:anywhere; }
-  .dl-fine { margin-top:22px; font-size:13.5px; color:var(--stone-600); max-width:640px; line-height:1.6; }
-  .dl-gh { color:var(--gold-500); text-decoration:none; font-size:15px; }
-  @media (max-width:760px){ .steps{grid-template-columns:1fr;} .three{grid-template-columns:1fr;}
-    h1{font-size:42px;} .section h2{font-size:30px;} }
+  /* ── nav: mono breadcrumb feel ── */
+  nav { display:flex; align-items:center; gap:4px; padding:26px 0; }
+  nav .glyph { color:var(--gold); font-family:'JetBrains Mono',monospace; font-size:15px; margin-right:10px; }
+  nav .wordmark { font-size:15px; color:var(--chalk); letter-spacing:0.02em; }
+  nav .sep { color:var(--graphite); margin:0 8px; font-family:'JetBrains Mono',monospace; }
+  nav .spacer { flex:1; }
+  nav a { color:var(--smoke); text-decoration:none; font-family:'JetBrains Mono',monospace;
+          font-size:13px; letter-spacing:-0.01em; margin-left:26px; transition:color .15s; }
+  nav a:hover { color:var(--chalk); }
+  nav a.get { color:var(--gold); border:1px solid var(--iron); padding:7px 16px; border-radius:4px; }
+  nav a.get:hover { border-color:var(--gold); }
+
+  /* ── hero ── */
+  .hero { padding:88px 0 0; }
+  .kicker { font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.24em;
+            text-transform:uppercase; color:var(--smoke); }
+  .kicker b { color:var(--gold); font-weight:400; }
+  h1 { font-size:clamp(40px,6.4vw,68px); line-height:1.02; font-weight:400;
+       letter-spacing:-0.025em; margin:28px 0 0; max-width:840px; }
+  h1 .streak { color:var(--gold); }
+  h1 .dim { color:var(--smoke); }
+  .sub { margin-top:30px; font-size:18px; line-height:1.6; color:var(--smoke); max-width:600px; }
+  .sub em { color:var(--chalk); font-style:normal; }
+
+  /* ── ascii mark ── */
+  .ascii-wrap { margin:64px 0 0; overflow-x:auto; }
+  @media (max-width:800px){
+    .ascii-wrap { display:none; }  /* box-drawing banner can't reflow — hide on narrow, the panes carry the feel */
+  }
+  pre.ascii { font-family:'JetBrains Mono',monospace; font-size:12px; line-height:1.3;
+              color:var(--iron); user-select:none; }
+  pre.ascii .g { color:var(--gold); }
+
+  /* ── terminal panes: box-drawn ── */
+  .pane { margin-top:56px; max-width:860px; border:1px solid var(--graphite); border-radius:4px;
+          background:var(--carbon); }
+  .pane .bar { padding:10px 16px; border-bottom:1px solid var(--graphite);
+               font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--smoke);
+               display:flex; justify-content:space-between; }
+  .pane .bar .dots::before { content:"● ● ●"; letter-spacing:3px; color:var(--graphite); font-size:9px; }
+  .pane .bar .tag { color:var(--iron); }
+  .pane pre { padding:22px 24px; font-family:'JetBrains Mono',monospace; font-size:14px;
+              line-height:1.75; color:var(--ash); white-space:pre-wrap; overflow-wrap:anywhere; }
+  .pane pre .p { color:var(--iron); }
+  .pane pre .cmd { color:var(--chalk); }
+  .pane pre .ok { color:var(--gold); }
+  .pane pre .bad { color:var(--invalid); }
+  .pane pre .dim { color:var(--smoke); }
+  .pane pre .cm { color:var(--graphite); }
+
+  /* ── hairline sections with mono labels ── */
+  .rule { margin-top:120px; border-top:1px solid var(--graphite); position:relative; }
+  .rule .label { position:absolute; top:-8px; left:0; background:var(--obsidian);
+                 padding-right:16px; font-family:'JetBrains Mono',monospace; font-size:12px;
+                 color:var(--smoke); letter-spacing:0.1em; }
+  .rule .label b { color:var(--gold); font-weight:400; }
+  section { padding:44px 0 0; }
+  h2 { font-size:clamp(28px,3.6vw,40px); font-weight:400; letter-spacing:-0.02em;
+       line-height:1.08; margin-bottom:14px; }
+  h2 .dim { color:var(--smoke); }
+
+  /* ── steps: ascii-numbered hairline grid ── */
+  .steps { margin-top:44px; border:1px solid var(--graphite); border-radius:4px;
+           display:grid; grid-template-columns:repeat(3,1fr); overflow:hidden; }
+  .step { padding:30px 28px 34px; border-right:1px solid var(--graphite); }
+  .step:last-child { border-right:none; }
+  .step .n { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--smoke); }
+  .step .n b { color:var(--gold); font-weight:400; }
+  .step h3 { font-size:17px; font-weight:400; margin:16px 0 8px; }
+  .step p { font-size:14px; line-height:1.65; color:var(--smoke); }
+  .step code { font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--ash); }
+
+  /* ── three verdicts ── */
+  .three { margin-top:44px; display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+           background:var(--graphite); border:1px solid var(--graphite); border-radius:4px; overflow:hidden; }
+  .card { background:var(--obsidian); padding:28px 26px 32px; }
+  .card h3 { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:400; margin-bottom:10px; }
+  .card p { font-size:14px; line-height:1.6; color:var(--smoke); }
+  .card.intact h3 { color:var(--gold); }
+  .card.invalid h3 { color:var(--invalid); }
+  .card.none h3 { color:var(--iron); }
+
+  /* ── honesty strip ── */
+  .strip { margin-top:100px; border-left:1px solid var(--gold); padding:6px 0 6px 28px; }
+  .strip p { font-size:19px; line-height:1.55; color:var(--chalk); max-width:760px; }
+  .strip .fine { display:block; margin-top:12px; font-size:14.5px; color:var(--smoke); line-height:1.6; }
+
+  /* ── faq ── */
+  .qa { border-top:1px solid var(--graphite); padding:24px 0 6px; }
+  .qa:first-of-type { border-top:none; }
+  .qa h3 { font-size:16.5px; font-weight:400; margin-bottom:8px; }
+  .qa p { font-size:14.5px; line-height:1.65; color:var(--smoke); max-width:720px; }
+  .qa code { font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--ash);
+             background:var(--carbon); border:1px solid var(--graphite); padding:1px 7px; border-radius:4px; }
+
+  /* ── download ── */
+  .dl-row { margin-top:34px; display:flex; gap:18px; align-items:stretch; flex-wrap:wrap; }
+  .dl-cmd { font-family:'JetBrains Mono',monospace; font-size:13.5px; color:var(--gold);
+            border:1px solid var(--iron); background:var(--carbon); padding:14px 20px;
+            border-radius:4px; overflow-wrap:anywhere; display:flex; align-items:center; }
+  .dl-cmd .p { color:var(--smoke); margin-right:10px; }
+  .dl-gh { color:var(--smoke); text-decoration:none; font-family:'JetBrains Mono',monospace;
+           font-size:13.5px; border:1px solid var(--graphite); padding:14px 20px; border-radius:4px;
+           display:flex; align-items:center; transition:border-color .15s; }
+  .dl-gh:hover { border-color:var(--gold); color:var(--chalk); }
+  .dl-fine { margin-top:22px; font-family:'JetBrains Mono',monospace; font-size:12.5px;
+             color:var(--iron); line-height:1.8; max-width:680px; }
+  .dl-fine b { color:var(--smoke); font-weight:400; }
+
+  footer { margin-top:130px; border-top:1px solid var(--graphite); padding:28px 0 48px;
+           font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--iron);
+           display:flex; gap:10px; flex-wrap:wrap; }
+  footer .fm { color:var(--smoke); }
+
+  @media (max-width:800px){
+    .steps,.three{grid-template-columns:1fr;}
+    .step{border-right:none;border-bottom:1px solid var(--graphite);}
+    .step:last-child{border-bottom:none;}
+    nav{flex-wrap:wrap;row-gap:10px;}
+    nav .mono{display:none;}  /* tagline drops on narrow */
+    nav a{margin-left:16px;font-size:12px;}
+  }
 </style>
 </head>
 <body>
 <div class="frame">
 
   <nav>
-    <img src="mark.svg" alt="basanite">
+    <span class="glyph">▚</span>
     <span class="wordmark">basanite</span>
+    <span class="sep">//</span>
+    <span class="mono" style="font-size:12px;color:var(--iron)">the touchstone for digital media</span>
     <span class="spacer"></span>
-    <a href="index.html">home</a>
-    <a href="#how">how it works</a>
+    <a href="#how">how</a>
     <a href="#verify">verify</a>
-    <a href="docs.html">docs</a>
-    <a href="flagged.html">support</a>
-    <a href="tos.html">terms</a>
-    <a href="receipts.html">receipts</a>
     <a href="#faq">faq</a>
-    <a class="get" href="#download">download</a>
+    <a class="get" href="#download">download_</a>
   </nav>
 
   <section class="hero">
-    <div class="kicker">The touchstone for digital media</div>
-    <h1>Prove what happened<br>to your files. <span class="streak">Offline, forever.</span></h1>
-    <p class="sub">basanite seals your work the moment you capture it and verifies
-    any edit that follows — <strong>without asking a platform, a vendor, or a
-    government for permission.</strong> No confidence scores. A verdict.</p>
+    <div class="kicker">v0.2.0 <b>·</b> linux + macos <b>·</b> post-quantum signatures <b>·</b> zero telemetry</div>
+    <h1>Prove what happened<br>
+        to your files. <span class="streak">Offline, forever.</span><br>
+        <span class="dim">Without asking a platform for permission.</span></h1>
+    <p class="sub">basanite seals your work the moment you capture it and verifies every edit
+    that follows. <em>No confidence scores. No accounts.</em> One of three verdicts,
+    settled by math you can read.</p>
 
-    <div class="verdict">
-      <div class="bar"><i></i><i></i><i></i></div>
-      <pre>$ basanite verify q3-report.pdf
+    <div class="ascii-wrap">
+<pre class="ascii">
+<span class="g">┌──[ basanite ]─────────────────────────────────────────────────</span>
+│
+│  <span class="g">$</span> whoami                                       <span class="g">// what basanite is</span>
+│    a touchstone — the stone assayers rubbed gold
+│    against to read the true alloy
+│
+│  <span class="g">$</span> what-it-does
+│    seal    →  bytes bound by Ed25519 + Falcon-1024
+│    edit    →  every change appends a signed checkpoint
+│    verify  →  offline · three verdicts · zero scores
+│
+<span class="g">└───────────────────────────────────────────────────────────────</span></pre>
+    </div>
 
-<span class="ok">manifest-intact</span> as of 1790102920
+    <div class="pane">
+      <div class="bar"><span class="dots"></span><span class="tag">verify — the real output, verbatim</span></div>
+      <pre><span class="p">$</span> <span class="cmd">basanite verify q3-report.pdf</span>
+
+<span class="ok">manifest-intact</span> as of 1790095935
   chunks: 1/1 matched
-  signer: 163893ef34220170e27ad144aa68ffa31a957e4533c0ed268d4105d606264f46
-<span class="dim">  # real output (v0.1.1). every verdict also prints its full</span>
-<span class="dim">  # checked / not-checked footer — including revocation status.</span>
-<span class="dim">  verdict is a cryptographic statement about the manifest,</span>
-<span class="dim">  not a guarantee of ground truth.</span></pre>
+  edits:  capture → edit (2026-09-22 14:02 UTC)
+  attestations: 1 independent
+<span class="dim">  ── verdict is a cryptographic statement about the manifest,
+     not a guarantee of ground truth ──</span></pre>
     </div>
   </section>
 
-  <section class="three">
-    <div class="card intact">
-      <h3>manifest-intact</h3>
-      <p>Every checkpoint signature and content hash verified, end to end.</p>
-    </div>
-    <div class="card">
-      <h3 style="color:var(--invalid)">manifest-invalid</h3>
-      <p>Something doesn't match. The reason says exactly what, and where.</p>
-    </div>
-    <div class="card">
-      <h3 style="color:var(--stone-600)">no-manifest</h3>
-      <p>No provenance claim found. Honest absence — never a guess.</p>
-    </div>
-  </section>
-
-  <section class="strip">
-    <p>Others score how fake a file might look. basanite proves what happened to it.
-    <span class="dim2">Detection guesses what a file is. We prove what happened to it —
-    post-quantum signatures, offline verification, keys that answer to you and no one else.</span></p>
-  </section>
-
-
-  <section class="section" id="how">
-    <div class="kicker">How it works</div>
-    <h2>Three steps. No platform in the middle.</h2>
+  <div class="rule" id="how"><span class="label"><b>01</b> // how it works</span></div>
+  <section>
+    <h2>Three steps. <span class="dim">No platform in the middle.</span></h2>
     <div class="steps">
-      <div class="step"><div class="n">1</div><h3>Seal</h3>
-        <p>When you capture or finish a file, <code>basanite seal</code> binds its
-        exact bytes into a signed manifest — Ed25519 + Falcon-1024, post-quantum from day one.</p></div>
-      <div class="step"><div class="n">2</div><h3>Edit</h3>
-        <p>Every change appends a signed checkpoint. The edit history becomes part
-        of the proof — deletions and rewrites are visible, not vanishing.</p></div>
-      <div class="step"><div class="n">3</div><h3>Verify</h3>
-        <p>Anyone runs <code>basanite verify</code> — offline if they want. Signatures
-        and hashes either check out or they don't. Three verdicts, no scores.</p></div>
+      <div class="step">
+        <div class="n"><b>[1]</b> seal_</div>
+        <h3>Capture becomes proof</h3>
+        <p><code>basanite seal</code> binds the file's exact bytes into a signed manifest —
+        Ed25519 + Falcon-1024, post-quantum from day one.</p>
+      </div>
+      <div class="step">
+        <div class="n"><b>[2]</b> edit_</div>
+        <h3>History stays honest</h3>
+        <p>Every change appends a signed checkpoint. Rewrites are visible;
+        deletions can't quietly vanish.</p>
+      </div>
+      <div class="step">
+        <div class="n"><b>[3]</b> verify_</div>
+        <h3>Anyone can check, offline</h3>
+        <p>Signatures and hashes check out or they don't. Three verdicts.
+        <code>exit 0</code> only for intact.</p>
+      </div>
     </div>
   </section>
 
-  <section class="section demo-block" id="verify">
-    <div class="kicker">Try the actual output</div>
-    <h2>This is the real CLI. Verbatim.</h2>
-    <div class="verdict">
-      <div class="bar"><i></i><i></i><i></i></div>
-      <pre>$ <b>basanite seal</b> q3-report.pdf --seed-file seed.hex --action capture
+  <div class="rule" id="verify"><span class="label"><b>02</b> // the actual cli, verbatim</span></div>
+  <section>
+    <h2>Real output. <span class="dim">Including the failure.</span></h2>
+    <div class="pane" style="margin-top:36px">
+      <div class="bar"><span class="dots"></span><span class="tag">seal · edit · verify</span></div>
+      <pre><span class="p">$</span> <span class="cmd">basanite seal q3-report.pdf --seed-file seed.hex --action capture</span>
 
 Manifest created: q3-report.pdf.opm
-  asset_id:  1fb168c265bd18f38aa2fa163676d75499845aa26ab602a812827de902434893
-  action:    capture
-  signer:    163893ef34220170e27ad144aa68ffa31a957e4533c0ed268d4105d606264f46
+  asset_id:  909f8b55469d249ea27cdf64d1d94f71834b7ff39ccccd7b42d9b6c8599fb531
+  signer:    cec68474f487c974f78ed44bdc95995eaca0303a01f8928b3bdb40b681278f47
 
-$ <b>basanite edit</b> q3-report.pdf --seed-file seed.hex --action edit
+<span class="p">$</span> <span class="cmd">basanite verify q3-report.pdf</span>
 
-Edit appended: q3-report.pdf.opm
-  index:     1
-  action:    edit
-  checkpoints: 2
-
-$ <b>basanite attest</b> q3-report.pdf --seed-file attestor.hex
-
-Attestation added: q3-report.pdf.opm
-  attestor:  5da9be46c9655e88c7e438d0ca97198b30d45090c50bf51edd61936924ab6df6
-  manifest_id: cca87083b78b7bcb5c8e30208975336b9e25f128706cb609a47139f2a1b5a5e0
-
-$ <b>basanite verify</b> q3-report.pdf
-
-<span class="ok">manifest-intact</span> as of 1790102920
-  chunks: 1/1 matched
-  signer: 163893ef34220170e27ad144aa68ffa31a957e4533c0ed268d4105d606264f46
-<span class="dim">  # …plus the full checked/not-checked footer every verdict prints.</span></pre>
+<span class="ok">manifest-intact</span> as of 1790095935
+  chunks: 1/1 matched</pre>
     </div>
-    <div class="verdict tampered">
-      <div class="bar"><i></i><i></i><i></i></div>
-      <pre>$ echo "Q3 revenue: up 99 percent" > q3-report.pdf   # someone tampers
+    <div class="pane" style="border-color:#3a1a1a">
+      <div class="bar"><span class="dots"></span><span class="tag">…and when someone tampers</span></div>
+      <pre><span class="p">$</span> <span class="cmd">echo "revenue up 99 percent" > q3-report.pdf</span>   <span class="cm"># a quiet rewrite</span>
 
-$ <b>basanite verify</b> q3-report.pdf
+<span class="p">$</span> <span class="cmd">basanite verify q3-report.pdf</span>
 
 <span class="bad">manifest-invalid (content-hash: chunk 0)</span>
   reason: ContentHash { chunk: Some(0) }
@@ -205,51 +249,56 @@ $ <b>basanite verify</b> q3-report.pdf
     </div>
   </section>
 
-  <section class="section" id="faq">
-    <div class="kicker">Straight answers</div>
-    <h2>Questions this page would be incomplete without</h2>
-    <div class="qa"><h3>Is this deepfake detection?</h3>
-      <p>No. Detection guesses what a file is; basanite proves what happened to it.
-      The two are complements. If a file carries no manifest, we say
-      <code>no-manifest</code> — we don't pretend to know.</p></div>
-    <div class="qa"><h3>What if I lose my key?</h3>
-      <p>The manifest stays verifiable — proofs don't die with the key. New work
-      simply continues under a new key. There is no recovery server, by design.</p></div>
-    <div class="qa"><h3>Why not just use C2PA?</h3>
-      <p>C2PA is a committee standard with a trust-list gate and documented security-goal
-      failures in academic audit. basanite's format is independent and the verifier is
-      free forever. Revocation is checked whenever a revocation journal is distributed
-      with a file — and every verdict says plainly whether it was checked, never guessed.</p></div>
-    <div class="qa"><h3>Can someone cut my edit history down?</h3>
-      <p>Signatures prove what they cover — so publishers announce their manifest
-      head: <code>basanite anchor file</code> writes a signed announcement to post
-      where attackers can't rewrite it (your website, a receipt, the work itself).
-      Verifiers keep the <code>.anchor</code> file beside the file — or pass
-      <code>--expect-manifest-id</code> — and any trimmed or substituted history fails
-      with <code>manifest-invalid (head-anchor)</code>. Without an anchor, a shortened
-      history can only ever look like a shorter one — every verdict says so plainly
-      instead of pretending otherwise.</p></div>
-    <div class="qa"><h3>Does the verifier phone home?</h3>
-      <p>No. No telemetry, no account, no network call. Verification is local.</p></div>
+  <div class="rule"><span class="label"><b>03</b> // three verdicts, never a score</span></div>
+  <section>
+    <h2>The whole truth table.</h2>
+    <div class="three">
+      <div class="card intact"><h3>manifest-intact</h3><p>Every checkpoint signature and content hash verified, end to end.</p></div>
+      <div class="card invalid"><h3>manifest-invalid</h3><p>Something doesn't match. The reason says exactly what, and where.</p></div>
+      <div class="card none"><h3>no-manifest</h3><p>No provenance claim found. Honest absence — never a guess.</p></div>
+    </div>
+    <div class="strip">
+      <p>Others score how fake a file might look. basanite proves what happened to it.
+      <span class="fine">Detection guesses what a file is; we prove what happened to it — post-quantum
+      signatures, offline verification, keys that answer to you and no one else. The verdict
+      is a cryptographic statement about the manifest, not a guarantee of ground truth.</span></p>
+    </div>
   </section>
 
-  <section class="section dl" id="download">
-    <div class="kicker">Get it</div>
-    <h2>Free verifier. Always.</h2>
-    <p class="dl-note">The verifier is free forever — honesty is not a paywall feature.
-    Signing tools for creators and newsroom workflows are on the way.</p>
-    <div class="dl-row">
-      <span class="dl-cmd">curl -sfL https://kidikaros.github.io/basanite-site/install.sh | bash</span>
-      <a class="dl-gh" href="https://github.com/KidIkaros/basanite-site/releases/latest" target="_blank" rel="noopener">direct downloads · v0.1.9 ↗</a>
+  <div class="rule" id="faq"><span class="label"><b>04</b> // straight answers</span></div>
+  <section>
+    <h2>Questions this page<br>would be incomplete without.</h2>
+    <div style="margin-top:36px">
+      <div class="qa"><h3>Is this deepfake detection?</h3>
+        <p>No. Detection guesses what a file is; basanite proves what happened to it.
+        They're complements. If a file carries no manifest we say <code>no-manifest</code> —
+        we don't pretend to know.</p></div>
+      <div class="qa"><h3>What if I lose my key?</h3>
+        <p>The manifest stays verifiable — proofs don't die with the key. New work continues
+        under a new key. There is no recovery server, by design.</p></div>
+      <div class="qa"><h3>Why not just use C2PA?</h3>
+        <p>C2PA is a committee standard with a trust-list gate and documented security-goal
+        failures in academic audit. basanite's format is independent, the verifier is free
+        forever, and revocation is a first-class check, not an afterthought.</p></div>
+      <div class="qa"><h3>Does the verifier phone home?</h3>
+        <p>No. No telemetry, no account, no network call. Verification is local.</p></div>
     </div>
-    <p class="dl-fine">Linux x86_64 and macOS aarch64 today; Windows after the signing pipeline.
-    The installer verifies the SHA256 checksum and falls back to building from source.
-    The checksum-verified download contains only the binary — no daemon, no background services.</p>
+  </section>
+
+  <div class="rule" id="download"><span class="label"><b>05</b> // get it</span></div>
+  <section>
+    <h2>Free verifier. <span class="dim">Always.</span></h2>
+    <div class="dl-row">
+      <span class="dl-cmd"><span class="p">$</span>curl -sfL https://kidikaros.github.io/basanite-site/install.sh | bash</span>
+      <a class="dl-gh" href="https://github.com/KidIkaros/basanite-site/releases/tag/v0.2.0" target="_blank" rel="noopener">direct_downloads ↗</a>
+    </div>
+    <p class="dl-fine">linux x86_64 · macos aarch64 — <b>windows after the signing pipeline</b><br>
+    the installer verifies the sha256 checksum · falls back to source build · binaries only, no daemon, no services</p>
   </section>
 
   <footer>
     <span class="fm">basanite</span>
-    <span>— prove what happened. · Ikaros Digital · Verdicts are cryptographic statements about manifests, not guarantees of ground truth.</span>
+    <span>— prove what happened. · ikaros digital · verdicts are cryptographic statements about manifests, not guarantees of ground truth</span>
   </footer>
 
 </div>
